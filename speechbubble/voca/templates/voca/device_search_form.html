@@ -1,0 +1,516 @@
+{% extends "threecol.html" %}
+{% load fb_versions %}
+{% load pagination_tags %}
+
+{% block title %}Device Search{% endblock %}
+
+{% block css %}
+<link 
+	rel="stylesheet" 
+	href="/media/css/paginate.css" 
+	type="text/css" 
+/>
+{% endblock %}
+
+{% block contentleft %}
+{% if search_initiated %}
+<div class="cbb"> 
+	<h3>FILTER</h3> 
+	<p class="subhead">YOUR RESULTS</p> 
+	<form 
+		action="{{ request.get_full_path }}" 
+		method="get" 
+		id="frmfilterform"
+	> 
+		<label for="select1" class="formlabel">By Software:</label> 
+		{{ form.software }}
+		<label for="select2" class="formlabel">By Vocabulary</label> 
+		{{ form.vocabulary }}
+		<input 
+			src="/media/img/formbuttongo.gif" 
+			alt="filter your results" 
+			class="searchbutton" 
+			value="search" 
+			type="image"
+		/> 
+		<div class="hidden">
+			{{ form.device_type }}
+			{{ form.supplier }}
+			{{ form.access }}
+			{{ form.speech_type }}
+			{{ form.number_messages }}
+			{{ form.operating_system }}
+			{{ form.scanning_feedback }}
+			{{ form.keyguard }}
+			{{ form.touchscreen_size }}
+			{{ form.environmental_control }}
+			{{ form.install_own_software }}
+			{{ form.mobile_phone_capable }}
+			{{ form.internet_capable }}
+			{{ form.wheelchair_mount }}
+			{{ form.weight }}
+			{{ form.sort_by }}
+		</div>
+	</form>	
+</div>
+{% endif %}
+{% endblock %}
+
+{% block breadcrumbs %}
+{% if search_initiated %}
+    <p>
+        You are here: 
+        <a href="/">home</a> 
+        &gt; <a href="/devices/">devices</a> 
+        &gt; <a href="/devices/search/">search</a>
+        &gt; results
+    </p>
+{% else %}
+    <p>
+        You are here: 
+        <a href="/">home</a> 
+        &gt; <a href="/devices/">devices</a> 
+        &gt; search
+    </p>
+{% endif %}
+{% endblock %}
+
+{% block content %}
+{% if search_initiated %}
+<h2>Results:</h2>
+<p>Your search returned <span class="bold">{{ number_results }}</span> products</p>
+{% if object_list %}
+	<form
+		action="{{ request.get_full_path }}"
+		method="get"
+	>
+		<p>
+			Order by: 
+			{{ form.sort_by }}
+			<input
+				type="submit"
+				value="Go"
+			/>
+			<div class="hidden">
+				{{ form.device_type }}
+				{{ form.supplier }}
+				{{ form.access }}
+				{{ form.speech_type }}
+				{{ form.number_messages }}
+				{{ form.operating_system }}
+				{{ form.scanning_feedback }}
+				{{ form.keyguard }}
+				{{ form.touchscreen_size }}
+				{{ form.environmental_control }}
+				{{ form.install_own_software }}
+				{{ form.mobile_phone_capable }}
+				{{ form.internet_capable }}
+				{{ form.wheelchair_mount }}
+				{{ form.weight }}
+				{{ form.software }}
+				{{ form.vocabulary }}
+			</div>
+		</p>
+	</form>
+{% if display_show_all_button %}
+	<form
+		action="{{ request.get_full_path }}"
+		method="get"
+	>
+		<p>
+			<input
+				type="hidden"
+				name="show"
+				value="all"
+			/>
+			<input
+				type="submit"
+				value="Show all"
+			/>
+			<div class="hidden">
+				{{ form.device_type }}
+				{{ form.supplier }}
+				{{ form.access }}
+				{{ form.speech_type }}
+				{{ form.number_messages }}
+				{{ form.operating_system }}
+				{{ form.scanning_feedback }}
+				{{ form.keyguard }}
+				{{ form.touchscreen_size }}
+				{{ form.environmental_control }}
+				{{ form.install_own_software }}
+				{{ form.mobile_phone_capable }}
+				{{ form.internet_capable }}
+				{{ form.wheelchair_mount }}
+				{{ form.weight }}
+				{{ form.software }}
+				{{ form.vocabulary }}
+				{{ form.sort_by }}
+			</div>
+		</p>
+	</form>
+{% endif %}
+        <form 
+		action="/devices/compare/" 
+		method="get"
+	>
+        <table 
+		summary="A table of rows containing a product image, 
+			a short description and a tickbox" 
+		width="100%" 
+		cellspacing="2px"
+		class="bodytablethree"
+	>
+        {% for result in object_list %}
+                <tr>
+                        <th scope="row">
+                        {% if result.images.all.0.image %}
+                                <a href="/device/{{ result.slug }}/">
+					<img 
+						src="{{ result.images.all.0.image.url }}" 
+						width="60" 
+						alt="Main image, scaled"
+					/>
+                                        {% version_object result.images.all.0.image 'thumbnail' as thumbnail %}
+					<img 
+						src="{{ thumbnail }}" 
+						alt="Generated using version_object"
+					/>
+					<img 
+						src="{% version result.images.all.0.image 'thumbnail' %}" 
+						alt="Generated using version"
+					/>
+				</a>
+                        {% endif %}
+                        </th>
+                        <td>
+                                <a href="/device/{{ result.slug }}/">
+					{{ result.name }}
+				</a>
+				<br />
+                                {{ result.short_description|safe }}
+                        </td>
+                        <td id="{{ result.slug }}_td" class="tickbox">
+                                Add to<br />COMPARE list<br />
+                                <input 
+					id="{{ result.slug }}" 
+					type="checkbox" 
+					class="product" 
+					name="device" 
+					value="{{ result.name }}" 
+				/>
+                        </td>
+                </tr>
+        {% endfor %}
+	</table>
+	<p>
+	<input 
+		src="/media/img/formbuttoncompare.gif" 
+		alt="compare these products" 
+		id="comparebutton"
+		class="searchbutton" 
+		value="search" 
+		type="image"
+	/>
+	</p>
+	</form>
+{% if display_show_all_button %}
+	<form
+		action="{{ request.get_full_path }}"
+		method="get"
+	>
+		<p>
+			<input
+				type="hidden"
+				name="show"
+				value="all"
+			/>
+			<input
+				type="submit"
+				value="Show all"
+			/>
+			<div class="hidden">
+				{{ form.device_type }}
+				{{ form.supplier }}
+				{{ form.access }}
+				{{ form.speech_type }}
+				{{ form.number_messages }}
+				{{ form.operating_system }}
+				{{ form.scanning_feedback }}
+				{{ form.keyguard }}
+				{{ form.touchscreen_size }}
+				{{ form.environmental_control }}
+				{{ form.install_own_software }}
+				{{ form.mobile_phone_capable }}
+				{{ form.internet_capable }}
+				{{ form.wheelchair_mount }}
+				{{ form.weight }}
+				{{ form.software }}
+				{{ form.vocabulary }}
+				{{ form.sort_by }}
+			</div>
+		</p>
+	</form>
+{% endif %}
+{% endif %}
+{% else %}
+<h2>Browse products alphabetically:</h2> 
+<div class="alphalist">
+<p> 
+	<a href="/devices/a/">A</a> 
+	<a href="/devices/b/">B</a> 
+	<a href="/devices/c/">C</a> 
+	<a href="/devices/d/">D</a> 
+	<a href="/devices/e/">E</a> 
+	<a href="/devices/f/">F</a> 
+	<a href="/devices/g/">G</a> 
+	<a href="/devices/h/">H</a> 
+	<a href="/devices/i/">I</a> 
+	<a href="/devices/j/">J</a> 
+	<a href="/devices/k/">K</a> 
+	<a href="/devices/l/">L</a> 
+	<a href="/devices/m/">M</a> 
+	<a href="/devices/n/">N</a> 
+	<a href="/devices/o/">O</a> 
+	<a href="/devices/p/">P</a> 
+	<a href="/devices/q/">Q</a> 
+	<a href="/devices/r/">R</a> 
+	<a href="/devices/s/">S</a> 
+	<a href="/devices/t/">T</a> 
+	<a href="/devices/u/">U</a> 
+	<a href="/devices/v/">V</a> 
+	<a href="/devices/w/">W</a> 
+	<a href="/devices/x/">X</a> 
+	<a href="/devices/y/">Y</a> 
+	<a href="/devices/z/">Z</a> 
+	</p>
+</div>
+<h2>Quick search by general type</h2>
+<form 
+	action="/devices/" 
+	method="get" 
+	id="searchbyfeature"
+>
+	<table 
+		summary="A table containing a tickbox list of product types"
+		width="100%" 
+		cellspacing="2" 
+		class="spectable"
+	>
+		<tr>
+			<th scope="row" class="thtop">
+	Type<br />(You can choose more than one)
+			</th>
+			<td>
+	{{ form.device_type }}
+	<input 
+		src="/media/img/formbuttonbluesearch.gif" 
+		alt="search" 
+		class="searchbutton" 
+		value="search" 
+		type="image"
+	/>
+			</td>
+		</tr>
+	</table>
+</form>
+<h2>Or detailed search by</h2>
+<form 
+	action="/devices/" 
+	method="get"
+>
+	<table 
+		summary="A table containing a tickbox list of product types" 
+		width="100%" 
+		cellspacing="2" 
+		class="spectable"
+	>
+		<tr>
+			<th scope="row" class="thtop">
+	<label for="id_supplier">Supplier:</label>
+			</th>
+			<td>
+	{{ form.supplier }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Access method:
+	<br />
+	(can choose more than one)
+			</th>
+			<td>
+	{{ form.access }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Main speech type:
+			</th>
+			<td>
+	{{ form.speech_type }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Max no of messages:
+			</th>
+			<td>
+	{{ form.number_messages }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Operating system:
+	<br />
+	(if applicable)
+			</th>
+			<td>
+	{{ form.operating_system }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Scanning indication:
+	<br />
+	(can choose more than one)
+			</th>
+			<td>
+	{{ form.scanning_feedback }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Keyguards:
+			</th>
+			<td>
+	{{ form.keyguard }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Touchscreen size:
+	<br />
+	(if applicable)
+			</th>
+			<td>
+	{{ form.touchscreen_size }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Do you need environmental control?
+			</th>
+			<td>
+	{{ form.environmental_control }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Can I install my own software? (if applicable)
+			</th>
+			<td>
+	{{ form.install_own_software }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Mobile phone capability as standard:
+			</th>
+			<td>
+	{{ form.mobile_phone_capable }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Internet and email capable as standard:
+			</th>
+			<td>
+	{{ form.internet_capable }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Wheelchair mounting plate:
+			</th>
+			<td>
+	{{ form.wheelchair_mount }}
+			</td>
+		</tr>
+		<tr> 
+			<th scope="row" class="thtop"></th> 
+			<td> 
+	
+	<input
+		src="/media/img/formbuttonbluesearch.gif" 
+		alt="search for products based on your options" 
+		class="searchbutton" 
+		value="search"
+		type="image"
+	/> 
+<button
+		type="reset"
+	>
+	<img
+		src="/media/img/startagainbutton.gif" 
+		alt="start again" 
+		class="resetbutton" 
+	/> 
+	</button>
+			</td> 
+		</tr> 
+	</table>
+</form>
+{% endif %}
+<script type="text/javascript" src="/media/js/json2.js"></script> 
+<script type="text/javascript" src="/media/js/jquery/jquery.cookie.js"></script> 
+<script type="text/javascript" src="/media/js/jquery/jquery.slugify.js"></script>
+<script type="text/javascript" src="/media/js/jquery/jookie.js"></script>
+<script type="text/javascript" src="/media/js/CompareBox.js"></script>
+{% endblock %}
+{% block rightcontent %}
+{% if search_initiated %}
+<div class="cbb"> 
+	<h3>CHOOSE</h3> 
+	<p class="subhead">ANOTHER DEVICE</p> 
+	<form action="" method="get" name="deviceSelect" class="textsizeadjust">
+	<p>
+	<label for="devices" class="formlabel">Details of:</label>
+	<select 
+		name="devices" 
+		id="devices"
+		onchange="document.location.href=document.deviceSelect.devices.options[document.deviceSelect.devices.selectedIndex].value"
+	>
+		<option value="">Choose device&hellip;</option>
+	{% for device in device_list %}
+		<option value="/device/{{ device.slug }}/">{{ device.name }}</option>
+	{% endfor %}
+	</select>
+	</p>
+	</form>
+</div>
+<div class="cbb"> 
+	<h3>COMPARE</h3> 
+	<p class="subhead">THIS PRODUCT</p> 
+	<p>Side-by-side view of up to 5 products</p> 
+	<p class="smaller">Click tickbox to remove</p> 
+	<form 
+		action="/devices/compare/" 
+		method="get"
+		id="frmcompareform"
+	>
+		<ul id="compareList" class="checkboxlist"> 
+		</ul> 
+		<p>
+		<input 
+			src="/media/img/formbuttoncompare.gif" 
+			alt="compare these products" 
+			class="searchbutton" 
+			value="search" 
+			type="image"
+		/>
+		</p>
+	</form>	
+</div>
+{% endif %}
+{% endblock %}

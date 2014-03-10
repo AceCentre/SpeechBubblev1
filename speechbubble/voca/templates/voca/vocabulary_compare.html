@@ -1,0 +1,95 @@
+{% extends "onecol.html" %}
+
+{% block title %}Compare vocabularies{% endblock %}
+
+{% block breadcrumbs %}
+    <p>You are here: <a href="/">home</a> &gt; <a href="/vocabularies/">vocabularies</a> &gt; compare</p>
+{% endblock %}
+
+{% block content %}
+{% if vocabulary_list %}
+    <table class="comparisontable">
+        <tr>
+            <th>&nbsp;</th>
+            {% for vocabulary in vocabulary_list %}
+            <td class="toprow">
+		{% if vocabulary.images.all.0.image.cropped %}
+                <a href="/vocabulary/{{ vocabulary.slug }}/">
+                        <img src="{{ vocabulary.images.all.0.image.cropped }}" alt="" />
+                </a>
+                {% else %}
+                <a href="/vocabulary/{{ vocabulary.slug }}/">
+                        <img src="/media/uploads/images/imagenotavailable_gif_versions/cropped_imagenotavailable.gif" alt="" />
+                </a>
+                {% endif %}
+                <a class="comparisontitle" href="/vocabulary/{{ vocabulary.slug }}/">{{ vocabulary.name }}</a>
+                {{ vocabulary.short_description|safe }}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Supplier(s):</th>
+            {% for vocabulary in vocabulary_list %}
+            <td class="darker">
+                {% for supplier in vocabulary.suppliers.all %}
+                {{ supplier.name }},
+                {% endfor %}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Guide price:</th>
+            {% for vocabulary in vocabulary_list %}
+            <td>
+            {% if vocabulary.guide_price_na %}
+                n/a
+            {% else %}
+                &pound;{{ vocabulary.guide_price_gbp }}
+            {% endif %}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Vocabulary type:</th>
+            {% for vocabulary in vocabulary_list %}
+            <td class="darker">{{ vocabulary.get_type_display }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Has prediction:</th>
+            {% for vocabulary in vocabulary_list %}
+            <td>{{ vocabulary.prediction|yesno|capfirst }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Has onscreen keyboards:</th>
+            {% for vocabulary in vocabulary_list %}
+            <td class="darker">{{ vocabulary.on_screen_keyboard|yesno|capfirst }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Switch access-friendly layouts:</th>
+            {% for vocabulary in vocabulary_list %}
+            <td>{{ vocabulary.switch_access|yesno|capfirst }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>For use with:</th>
+            {% for vocabulary in vocabulary_list %}
+            <td class="darker">
+                {% for software in vocabulary.software_supplied_vocabularies.all %}
+                    <a href="/software/{{ software.slug }}/">
+                        {{ software.name }}</a>,
+                {% endfor %}
+                {% for software in vocabulary.software_compatible_vocabularies.all %}
+                    <a href="/software/{{ software.slug }}/">
+                        {{ software.name }}</a>{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            </td>
+            {% endfor %}
+        </tr>
+    </table>
+{% else %}
+	<p>You haven't selected any products to compare</p>
+{% endif %}
+{% endblock %}

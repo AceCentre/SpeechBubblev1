@@ -1,0 +1,57 @@
+.i1,
+.i3,
+.clearfix,
+.redcornerLH,
+#printiconbox a,
+#sidebars ul li,
+#sidebars li a,
+#sidebars .downloads ul li,
+#sidebars .downloads li a, {
+	height:1%;
+	}
+
+#tab_bar ul li,
+#tab_bar li a {
+	width:1%;
+	}
+
+.picframe .i3 {
+	height:51px;
+	}
+
+#sidebars h3 {
+	line-height:1.3;
+	}
+
+#sidebars a.picturelinksingle,
+#sidebars a.picturelinksingle:hover {
+	margin:0.9em 0 0 56px;
+	}
+
+#searchbox	{
+	top:-15px;
+	}
+
+.move_this_text_below_image	{
+	border-top:0;
+	}
+
+#contents h2 {
+	border-top:0;
+	margin-top:0.5em;
+	}
+	
+#contents h2.indextop {
+	border-top:0;
+	margin-top:0;
+	}
+
+#contents h3 {
+	border-top:0;
+	margin-top:1em;
+	}
+
+#contents ul	{
+	border-top:0;
+	margin-top:1em;
+	}

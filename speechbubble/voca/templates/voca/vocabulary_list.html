@@ -1,0 +1,112 @@
+{% extends "threecol.html" %}
+
+{% block title %}Vocabularies{% endblock %}
+
+{% block breadcrumbs %}
+    <p>You are here: <a href="/">home</a> &gt; vocabularies</p>
+{% endblock %}
+
+{% block content %}
+    {% if vocabulary_list %}
+        <p>Your search returned <span class="bold">{{ number_results }}</span> products</p>
+        <form 
+		action="/vocabularies/compare/" 
+		method="get"
+	>
+        <table 
+		summary="A table of rows containing a product image, 
+			a short description and a tickbox" 
+		width="100%" 
+		cellspacing="2px"
+		class="bodytablethree"
+	>
+        {% for vocabulary in vocabulary_list %}
+                <tr>
+                        <th scope="row">
+                                {% if vocabulary.images.all.0.image.cropped %}
+                                <a href="/vocabulary/{{ vocabulary.slug }}/"><img src="{{ vocabulary.images.all.0.image.cropped }}" alt="" /></a>
+                                {% endif %}
+                        </th>
+                        <td>
+                                <a href="/vocabulary/{{ vocabulary.slug }}/">{{ vocabulary.name }}</a><br />
+                                {{ vocabulary.short_description|safe }}
+                        </td>
+                        <td id="{{ vocabulary.slug }}_td" class="tickbox">
+                                Add to<br />COMPARE list<br />
+                                <input 
+					id="{{ vocabulary.slug }}" 
+					type="checkbox" 
+					name="vocabulary" 
+					value="{{ vocabulary.name }}" 
+				/>
+                        </td>
+                </tr>
+        {% endfor %}
+	</table>
+	<p>
+	<input 
+		src="/media/img/formbuttoncompare.gif" 
+		alt="compare these products" 
+		class="searchbutton" 
+		value="search" 
+		type="image"
+	/>
+	</p>
+	</form>
+        {% else %}
+                <p>No vocabularies matched your search criteria</p>
+        {% endif %}
+<script type="text/javascript" src="/media/js/jquery.cookie.js"></script> 
+<script type="text/javascript" src="/media/js/jquery.jsoncookie.js"></script>
+<script type="text/javascript">
+<!--
+$(document).ready(function (){ //Wait for the page to load.
+	$('input[name=vocabulary]').bind('change', function (){
+		updateCompareList(this);
+	});
+});
+
+function updateCompareList(element){
+	//Do something when the content of 'element' is changed.
+	var vocabularySlug = $(element).attr('id');
+	var vocabularyName = $(element).val();
+	if ($(element).is(':checked')) {
+		$('#compareList').append('<li id="'+vocabularySlug+'_li"></li>');
+		$('#'+vocabularySlug).appendTo('#'+vocabularySlug+'_li');
+		$('#'+vocabularySlug+'_li').append(vocabularyName);
+		$('#'+vocabularySlug+'_td').text("Added to comparison");
+	}
+	else {
+		$('#'+vocabularySlug+'_td').text("Add to COMPARE list");
+		$('#'+vocabularySlug).appendTo('#'+vocabularySlug+'_td');
+		$('#'+vocabularySlug+'_li').remove();
+	}
+};
+-->
+</script>
+{% endblock %}
+{% block rightcontent %}
+<div class="cbb"> 
+	<h3>COMPARE</h3> 
+	<p class="subhead">THIS PRODUCT</p> 
+	<p>Side-by-side view of up to 5 products</p> 
+	<p class="smaller">Click tickbox to remove</p> 
+	<form 
+		action="/vocabularies/compare/" 
+		method="get"
+		id="frmcompareform"
+	>
+		<ul id="compareList" class="checkboxlist"> 
+		</ul> 
+		<p>
+		<input 
+			src="/media/img/formbuttoncompare.gif" 
+			alt="compare these products" 
+			class="searchbutton" 
+			value="search" 
+			type="image"
+		/>
+		</p>
+	</form>	
+</div>
+{% endblock %}

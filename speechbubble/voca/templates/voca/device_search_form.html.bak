@@ -1,0 +1,405 @@
+{% extends "threecol.html" %}
+
+{% block title %}Device Search{% endblock %}
+
+{% block contentleft %}
+{% if search_initiated %}
+<div class="cbb"> 
+	<h3>FILTER</h3> 
+	<p class="subhead">YOUR RESULTS</p> 
+	<form 
+		action="{{ request.get_full_path }}" 
+		method="get" 
+		id="frmfilterform"
+	> 
+		<label for="select1" class="formlabel">By Software:</label> 
+		{{ search_form.software }}
+		<label for="select2" class="formlabel">By Vocabulary</label> 
+		{{ search_form.vocabulary }}
+		<input 
+			src="/media/img/formbuttongo.gif" 
+			alt="filter your results" 
+			class="searchbutton" 
+			value="search" 
+			type="image"
+		/> 
+		<div class="hidden">
+			{{ search_form.device_type }}
+			{{ search_form.supplier }}
+			{{ search_form.access }}
+			{{ search_form.number_messages }}
+			{{ search_form.scanning_feedback }}
+			{{ search_form.speech_type }}
+			{{ search_form.weight }}
+			{{ search_form.sort_by }}
+		</div>
+	</form>	
+</div>
+{% endif %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <p>You are here: <a href="/">home</a> &gt; <a href="/devices/">devices</a> &gt; search</p>
+{% endblock %}
+
+{% block content %}
+{% if search_initiated %}
+<h2>Results:</h2>
+        <p>Your search returned <span class="bold">{{ number_results }}</span> products</p>
+	{% if object_list %}
+	<form
+		action="{{ request.get_full_path }}"
+		method="get"
+	>
+		<p>
+			Order by: 
+			{{ search_form.sort_by }}
+			<input
+				type="submit"
+				value="Go"
+			/>
+			<div class="hidden">
+				{{ search_form.device_type }}
+				{{ search_form.supplier }}
+				{{ search_form.access }}
+				{{ search_form.number_messages }}
+				{{ search_form.scanning_feedback }}
+				{{ search_form.speech_type }}
+				{{ search_form.software }}
+				{{ search_form.vocabulary }}
+				{{ search_form.weight }}
+			</div>
+		</p>
+	</form>
+        <form 
+		action="/devices/compare/" 
+		method="get"
+	>
+        <table 
+		summary="A table of rows containing a product image, 
+			a short description and a tickbox" 
+		width="100%" 
+		cellspacing="2px"
+		class="bodytablethree"
+	>
+        {% for result in object_list %}
+                <tr>
+                        <th scope="row">
+                        {% if result.images.all.0.image.cropped %}
+                                <a href="/device/{{ result.slug }}/">
+					<img 
+						src="{{ result.images.all.0.image.cropped }}" 
+						alt="" 
+					/>
+				</a>
+                        {% endif %}
+                        </th>
+                        <td>
+                                <a href="/device/{{ result.slug }}/">
+					{{ result.name }}
+				</a>
+				<br />
+                                {{ result.short_description|safe }}
+                        </td>
+                        <td id="{{ result.slug }}_td" class="tickbox">
+                                Add to<br />COMPARE list<br />
+                                <input 
+					id="{{ result.slug }}" 
+					type="checkbox" 
+					name="product" 
+					value="{{ result.name }}" 
+				/>
+                        </td>
+                </tr>
+        {% endfor %}
+	</table>
+	<p>
+	<input 
+		src="/media/img/formbuttoncompare.gif" 
+		alt="compare these products" 
+		class="searchbutton" 
+		value="search" 
+		type="image"
+	/>
+	</p>
+	</form>
+	{% endif %}
+{% if is_paginated %}
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}{{ new_url }}">previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}{{ new_url }}">next</a>
+        {% endif %}
+    </span>
+</div>
+{% endif %}
+{% else %}
+<h2>Browse products alphabetically:</h2> 
+<div class="alphalist">
+<p> 
+	<a href="/devices/a/">A</a> 
+	<a href="/devices/b/">B</a> 
+	<a href="/devices/c/">C</a> 
+	<a href="/devices/d/">D</a> 
+	<a href="/devices/e/">E</a> 
+	<a href="/devices/f/">F</a> 
+	<a href="/devices/g/">G</a> 
+	<a href="/devices/h/">H</a> 
+	<a href="/devices/i/">I</a> 
+	<a href="/devices/j/">J</a> 
+	<a href="/devices/k/">K</a> 
+	<a href="/devices/l/">L</a> 
+	<a href="/devices/m/">M</a> 
+	<a href="/devices/n/">N</a> 
+	<a href="/devices/o/">O</a> 
+	<a href="/devices/p/">P</a> 
+	<a href="/devices/q/">Q</a> 
+	<a href="/devices/r/">R</a> 
+	<a href="/devices/s/">S</a> 
+	<a href="/devices/t/">T</a> 
+	<a href="/devices/u/">U</a> 
+	<a href="/devices/v/">V</a> 
+	<a href="/devices/w/">W</a> 
+	<a href="/devices/x/">X</a> 
+	<a href="/devices/y/">Y</a> 
+	<a href="/devices/z/">Z</a> 
+	</p>
+</div>
+<h2>Quick search by general type</h2>
+<form 
+	action="/devices/" 
+	method="get" 
+	id="searchbyfeature"
+>
+	<table 
+		summary="A table containing a tickbox list of product types"
+		width="100%" 
+		cellspacing="2" 
+		class="spectable"
+	>
+		<tr>
+			<th scope="row" class="thtop">
+	Type<br />(You can choose more than one)
+			</th>
+			<td>
+	{{ search_form.device_type }}
+	<input 
+		src="/media/img/formbuttonbluesearch.gif" 
+		alt="search" 
+		class="searchbutton" 
+		value="search" 
+		type="image"
+	/>
+			</td>
+		</tr>
+	</table>
+</form>
+<h2>Or detailed search by</h2>
+<form 
+	action="/devices/" 
+	method="get"
+>
+	<table 
+		summary="A table containing a tickbox list of product types" 
+		width="100%" 
+		cellspacing="2" 
+		class="spectable"
+	>
+		<tr>
+			<th scope="row" class="thtop">
+	<label for="id_supplier">Supplier:</label>
+			</th>
+			<td>
+	{{ search_form.supplier }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Access method:
+	<br />
+	(can choose more than one)
+			</th>
+			<td>
+	{{ search_form.access }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Main speech type:
+			</th>
+			<td>
+	{{ search_form.speech_type }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Max no of messages:
+			</th>
+			<td>
+	{{ search_form.number_messages }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Operating system:
+	<br />
+	(if applicable)
+			</th>
+			<td>
+	{{ search_form.operating_system }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Scanning indication:
+	<br />
+	(can choose more than one)
+			</th>
+			<td>
+	{{ search_form.scanning_feedback }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Keyguards:
+			</th>
+			<td>
+	{{ search_form.keyguard }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Touchscreen size:
+	<br />
+	(if applicable)
+			</th>
+			<td>
+	{{ search_form.touchscreen_size }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Do you need environmental control?
+			</th>
+			<td>
+	{{ search_form.environmental_control }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Can I install my own software? (if applicable)
+			</th>
+			<td>
+	{{ search_form.install_own_software }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Mobile phone capability as standard:
+			</th>
+			<td>
+	{{ search_form.mobile_phone_capable }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Internet and email capable as standard:
+			</th>
+			<td>
+	{{ search_form.internet_capable }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Wheelchair mounting plate:
+			</th>
+			<td>
+	{{ search_form.wheelchair_mount }}
+			</td>
+		</tr>
+		<tr> 
+			<th scope="row" class="thtop"></th> 
+			<td> 
+	<input
+		src="/media/img/formbuttonbluesearch.gif" 
+		alt="search for products based on your options" 
+		class="searchbutton" 
+		value="search"
+		type="image"
+	/> 
+			</td> 
+		</tr> 
+	</table>
+</form>
+{% endif %}
+<script type="text/javascript" src="/media/js/json2.js"></script> 
+<script type="text/javascript" src="/media/js/jquery/jquery.cookie.js"></script> 
+<script type="text/javascript" src="/media/js/jquery/jquery.jsoncookie.js"></script>
+<script type="text/javascript" src="/media/js/jquery/jquery.slugify.js"></script>
+<script type="text/javascript" src="/media/js/CompareBox.js"></script>
+<script type="text/javascript">
+<!--
+var obj;
+jQuery(function ($) {
+	$('#store').click(function () {
+		var name = $('#cookieName').val(),
+			val = $('#cookieObject').val();
+		eval('obj = ' + val, window);
+		$.JSONCookie(name, obj, {path: '/'});
+		return false;
+	});
+	
+	$('#retrieve').click(function () {
+		var name = $('#cookieName').val(),
+			o = $.JSONCookie(name);
+		$('#cookieObject').val('').val(JSON.stringify(obj));
+		return false;
+	});
+	
+	$('#log').click(function () {
+		var name = $('#cookieName').val(),
+			o = $.JSONCookie(name);
+		if (window.console && console.log) {
+			console.log(o);
+		}
+		return false;
+	});
+});
+-->
+</script>
+{% endblock %}
+{% block rightcontent %}
+{% if search_initiated %}
+<div class="cbb"> 
+	<h3>COMPARE</h3> 
+	<p class="subhead">THIS PRODUCT</p> 
+	<p>Side-by-side view of up to 5 products</p> 
+	<p class="smaller">Click tickbox to remove</p> 
+	<form 
+		action="/devices/compare/" 
+		method="get"
+		id="frmcompareform"
+	>
+		<ul id="compareList" class="checkboxlist"> 
+		</ul> 
+		<p>
+		<input 
+			src="/media/img/formbuttoncompare.gif" 
+			alt="compare these products" 
+			class="searchbutton" 
+			value="search" 
+			type="image"
+		/>
+		</p>
+	</form>	
+</div>
+{% endif %}
+{% endblock %}

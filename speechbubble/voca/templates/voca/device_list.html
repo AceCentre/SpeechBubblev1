@@ -1,0 +1,205 @@
+{% extends "threecol.html" %}
+
+{% block title %}Devices{% endblock %}
+
+{% block contentleft %}
+<div class="cbb"> 
+	<h3>FILTER</h3> 
+	<p class="subhead">YOUR RESULTS</p> 
+	<form action="" method="get" id="frmfilterform"> 
+		<label for="select1" class="formlabel">By Software:</label> 
+		<select name="software" value="" id="software"> 
+			<option value="">choose software</option> 
+			<option value="eurovocs">EuroVocs</option> 
+			<option value="impact">Impact</option> 
+			<option value="jive-software">Jive! software</option> 
+			<option value="mindexpress">MindExpress</option> 
+			<option value="palmchat-software">Palmchat Software</option> 
+			<option value="touchspeak">TouchSpeak</option> 
+			<option value="typespeak">TypeSpeak</option> 
+		</select> 
+		<label for="select2" class="formlabel">By Vocabulary</label> 
+		<select name="vocabulary" value="" id="vocabulary"> 
+			<option value="">choose vocabulary</option> 
+			<option value="16-basic-and-16-primary">16 Basic and 16 Primary</option> 
+			<option value="chailey-communication-system">Chailey Communication System</option> 
+			<option value="discovery">Discovery</option> 
+			<option value="expresstalk">ExpressTalk</option> 
+			<option value="gateway">Gateway</option> 
+			<option value="idv4life">IDV4Life</option> 
+			<option value="impact-vocabularies">Impact Vocabularies</option> 
+			<option value="ingfield-dynamic-vocabularies">Ingfield Dynamic Vocabularies</option> 
+			<option value="interaact">InterAACT</option> 
+			<option value="palmchat">PalmChat</option> 
+			<option value="picture-wordpower">Picture WordPower</option> 
+			<option value="scanspeak">ScanSpeak</option> 
+			<option value="teach-talk-lll-version">Teach &amp; Talk (LLL version)</option> 
+			<option value="teach-talk-pcs-version">Teach &amp; Talk (PCS version)</option> 
+			<option value="velocity">Velocity</option> 
+			<option value="vocabpc">VocabPC</option> 
+			<option value="wordpower">WordPower</option> 
+		</select> 
+		<input 
+			src="/media/img/formbuttongo.gif" 
+			alt="filter your results" 
+			class="searchbutton" 
+			value="search" 
+			type="image"
+		> 
+	</form>	
+</div>
+{% endblock %}
+
+{% block breadcrumbs %}
+    <p>You are here: <a href="/">home</a> &gt; devices</p>
+{% endblock %}
+
+{% block content %}
+    {% if device_list %}
+        <p>Your search returned <span class="bold">{{ number_results }}</span> products</p>
+	<form
+		action="/devices/"
+		method="get"
+	>
+		<p>
+			Order by: 
+			<select name="sort_by">
+				<option value="name">name</option>
+				<option value="price_low">price (lowest first)</option>
+				<option value="price_high">price (highest first)</option>
+				<option value="weight_low">weight (lowest first)</option>
+				<option value="weight_high">weight (highest first)</option>
+			</select>
+			<input
+				type="submit"
+				value="Go"
+			/>
+		</p>
+	</form>
+        <form 
+		action="/devices/compare/" 
+		method="get"
+	>
+        <table 
+		summary="A table of rows containing a product image, 
+			a short description and a tickbox" 
+		width="100%" 
+		cellspacing="2px"
+		class="bodytablethree"
+	>
+        {% for device in device_list %}
+                <tr>
+                        <th scope="row">
+                                <a href="/device/{{ device.slug }}/"><img src="{{ device.images.all.0.url }}" alt="" /></a>
+                        </th>
+                        <td>
+                                <a href="/device/{{ device.slug }}/">{{ device.name }}</a><br />
+                                {{ device.short_description|safe }}
+                        </td>
+                        <td id="{{ device.slug }}_td" class="tickbox">
+                                Add to<br />COMPARE list<br />
+                                <input 
+					id="{{ device.slug }}" 
+					type="checkbox" 
+					name="device" 
+					value="{{ device.name }}" 
+				/>
+                        </td>
+                </tr>
+        {% endfor %}
+	</table>
+	<p>
+	<input 
+		src="/media/img/formbuttoncompare.gif" 
+		alt="compare these products" 
+		class="searchbutton" 
+		value="search" 
+		type="image"
+	/>
+	</p>
+	</form>
+        {% else %}
+                <p>No devices matched your search criteria</p>
+        {% endif %}
+<script type="text/javascript" src="/media/js/json2.js"></script> 
+<script type="text/javascript" src="/media/js/jquery/jquery.cookie.js"></script> 
+<script type="text/javascript" src="/media/js/jquery/jquery.jsoncookie.js"></script>
+<script type="text/javascript" src="/media/js/jquery/jquery.slugify.js"></script>
+<script type="text/javascript">
+<!--
+$(document).ready(function (){ //Wait for the page to load.
+	$('input[name=device]').bind('change', function (){
+		updateCompareList(this);
+	});
+});
+
+function updateCompareList(element){
+	//Do something when the content of 'element' is changed.
+	var deviceSlug = $(element).attr('id');
+	var deviceName = $(element).val();
+	if ($(element).is(':checked')) {
+		$('#compareList').append('<li id="'+deviceSlug+'_li"></li>');
+		$('#'+deviceSlug).appendTo('#'+deviceSlug+'_li');
+		$('#'+deviceSlug+'_li').append(deviceName);
+		$('#'+deviceSlug+'_td').text("Added to comparison");
+	}
+	else {
+		$('#'+deviceSlug+'_td').text("Add to COMPARE list");
+		$('#'+deviceSlug).appendTo('#'+deviceSlug+'_td');
+		$('#'+deviceSlug+'_li').remove();
+	}
+};
+	var obj;
+	jQuery(function ($) {
+		$('#store').click(function () {
+			var name = $('#cookieName').val(),
+				val = $('#cookieObject').val();
+			eval('obj = ' + val, window);
+			$.JSONCookie(name, obj, {path: '/'});
+			return false;
+		});
+		
+		$('#retrieve').click(function () {
+			var name = $('#cookieName').val(),
+				o = $.JSONCookie(name);
+			$('#cookieObject').val('').val(JSON.stringify(obj));
+			return false;
+		});
+		
+		$('#log').click(function () {
+			var name = $('#cookieName').val(),
+				o = $.JSONCookie(name);
+			if (window.console && console.log) {
+				console.log(o);
+			}
+			return false;
+		});
+	});
+-->
+</script>
+{% endblock %}
+{% block rightcontent %}
+<div class="cbb"> 
+	<h3>COMPARE</h3> 
+	<p class="subhead">THIS PRODUCT</p> 
+	<p>Side-by-side view of up to 5 products</p> 
+	<p class="smaller">Click tickbox to remove</p> 
+	<form 
+		action="/devices/compare/" 
+		method="get"
+		id="frmcompareform"
+	>
+		<ul id="compareList" class="checkboxlist"> 
+		</ul> 
+		<p>
+		<input 
+			src="/media/img/formbuttoncompare.gif" 
+			alt="compare these products" 
+			class="searchbutton" 
+			value="search" 
+			type="image"
+		/>
+		</p>
+	</form>	
+</div>
+{% endblock %}

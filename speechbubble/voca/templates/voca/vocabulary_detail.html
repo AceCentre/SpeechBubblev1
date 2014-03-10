@@ -1,0 +1,274 @@
+{% extends "threecol.html" %}
+
+{% block title %}{{ vocabulary.name }}{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/media/css/jquery/plugins/galleriffic.css" type="text/css" />
+<link rel="stylesheet" href="/media/css/jquery/plugins/jquery.lightbox-0.5.css" type="text/css" media="screen" />
+{% endblock %}
+
+{% block breadcrumbs %}
+<p>You are here: <a href="/">home</a> &gt; <a href="/vocabularies/">vocabularies</a> &gt; {{ vocabulary.name }}</p>
+{% endblock %}
+
+{% block content %}
+
+<div id="gallerycontainer">
+	<div id="gallery" class="content">
+		<div id="slideshow" class="slideshow"></div>
+		<div id="caption" class="caption-container"></div>
+	</div>
+	<div id="thumbs" class="navigation">
+		<ul 
+			{% ifequal vocabulary.images.all|length 1 %}style="display: none;"{% endifequal %}
+			class="thumbs noscript"
+		>
+		{% for image in vocabulary.images.all %}
+			<li>
+				<a 
+					class="thumb" 
+				{% if image.image.small %}
+					href="{{ image.image.small }}" 
+				{% else %}
+					href="{{ image.image.original }}" 
+				{% endif %}
+					title="Image of {{ vocabulary.name }}"
+				>
+					<img 
+						src="{{ image.image.cropped }}" 
+						alt="Image of {{ vocabulary.name }}"
+					/>
+				</a>
+				<div class="caption">
+					<div class="download"> 
+						<a
+							class="lightbox"
+							href="{{ image.image.original }}"
+						>
+							See full size image
+						</a> 
+					</div>
+				</div>
+			</li>
+		{% endfor %}
+		</ul>
+	</div>
+</div>
+
+<div id="long_description">
+	{{ vocabulary.long_description|safe }}
+</div>
+<h2>Specifications</h2>
+<table 
+	summary="A table of selected features of the product" 
+	class="spectable" 
+	width="100%"
+>
+	<tr>
+		<th scope="row" class="thtop">Supplier(s):</th>
+		<td>
+		{% for supplier in vocabulary.suppliers.all %}
+			<a href="/supplier/{{ supplier.id }}/">
+				{{ supplier.name }}{% if not forloop.last %},{% endif %}
+			</a>
+			<br /> 
+		{% endfor %}
+		</td>
+	</tr>
+	<!-- <tr>
+		<th scope="row" class="thtop">Language level:</th>
+		<td>
+		{% for level in vocabulary.langauge_level.all %}
+			{{ level.name }}{% if not forloop.last %},{% endif %} 
+		{% endfor %}
+		</td>
+	</tr> -->
+	<tr>
+		<th scope="row" class="thtop">Guide price:</th>
+		<td>
+			{% if vocabulary.guide_price_na %}
+			n/a
+			{% else %}
+			&pound;{{ vocabulary.guide_price_gbp }}
+			{% endif %}
+		</td>
+	</tr>
+	{% if vocabulary.guide_price_notes %}
+	<tr>
+		<th scope="row" class="thtop">Price notes:</th>
+		<td>{{ vocabulary.guide_price_notes|safe }}</td>
+	</tr>
+	{% endif %}
+	<tr>
+		<th scope="row" class="thtop">Vocabulary type:</th>
+		<td>{{ vocabulary.get_type_display }}</td>
+	</tr>
+	<tr>
+		<th scope="row" class="thtop">Has prediction:</th>
+		<td>{{ vocabulary.prediction|yesno|capfirst }}</td>
+	</tr>
+	<tr>
+		<th scope="row" class="thtop">Has onscreen keyboards:</th>
+		<td>{{ vocabulary.on_screen_keyboard|yesno|capfirst }}</td>
+	</tr>
+	<tr>
+		<th scope="row" class="thtop">Switch access-friendly layouts:</th>
+		<td>{{ vocabulary.switch_access|yesno|capfirst }}</td>
+	</tr>
+	<tr>
+		<th scope="row" class="thtop">For use with:</th>	
+		<td>
+		{% for software in vocabulary.software_supplied_vocabularies.all %}
+			<a href="/software/{{ software.slug }}/">
+				{{ software.name }}</a>,
+		{% endfor %}
+		{% for software in vocabulary.software_compatible_vocabularies.all %}
+			<a href="/software/{{ software.slug }}/">
+				{{ software.name }}</a>{% if not forloop.last %},{% endif %} 
+		{% endfor %}
+		</td>
+	</tr>	
+</table>
+<p class="firstpara">Note that the information above is correct to the best of the ACE Centre's knowledge. However, always check with the supplier(s).</p>
+<p><a href="#">back to top</a></p>
+<script 
+	type="text/javascript" 
+	src="/media/js/jquery/plugins/jquery.galleriffic.js"
+></script>
+<script 
+	type="text/javascript" 
+	src="/media/js/jquery/plugins/jquery.lightbox-0.5.js"
+></script>
+<script 
+	type="text/javascript" 
+	src="/media/js/jquery/jquery.truncator.js"
+></script>
+<script type="text/javascript">
+// We only want these styles applied when javascript is enabled
+$('div.navigation').css({'width' : '250px', 'float' : 'left'});
+$('div.content').css('display', 'block');
+ 
+$(document).ready(function() {				
+	// Initialize Minimal Galleriffic Gallery
+	$('#gallery').galleriffic('#thumbs', {
+		imageContainerSel: 	'#slideshow',
+		controlsContainerSel: 	'#controls',
+		captionContainerSel:    '#caption',
+		numThumbs:		3, // The number of thumbnails to show
+		onTransitionIn:         function() {
+			$('#slideshow').fadeIn('fast');
+			$('#caption').fadeIn('fast', function() {
+				$('.download a.lightbox').lightBox();
+			});
+		}
+	});
+	// Initialize jTruncate for description (un-comment out next line if truncator required)
+	// $('#long_description').truncate({max_length: 300});
+});
+</script>
+<script type="text/javascript" src="/media/js/jquery/jookie.js"></script>
+<script type="text/javascript" src="/media/js/CompareBox.js"></script>
+{% endblock %} 
+
+{% block rightcontent %}
+<div class="downloads">
+	{% if vocabulary.documents.all %}
+	<p class="subhead">DOWNLOADS</p>
+	<ul>
+	{% for document in vocabulary.documents.all %}
+		<li class="{{ document.file.path|slice:"-3:" }}">
+			<a href="{{ document.file.url }}">{{ document.name }} ({{ document.file.path|slice:"-3:" }}, {{document.file.size|filesizeformat }})</a>
+		</li>
+	{% endfor %}
+	</ul>
+	{% endif %}
+</div>
+<div class="cbb"> 
+	<h3>CHOOSE</h3> 
+	<p class="subhead">ANOTHER VOCAB</p> 
+    <form action="" method="get" class="homeselect" name="vocabularySelect">
+        <p>
+        <label for="vocabularies" class="formlabel">Details of:</label>
+        <select
+                name="vocabularies"
+                id="vocabularies"
+                onchange="document.location.href=document.vocabularySelect.vocabularies.options[document.vocabularySelect.vocabularies.selectedIndex].value"
+        >
+                <option value="">Choose vocabulary&hellip;</option>
+        {% for vocabulary in vocabulary_list %}
+                <option value="/vocabulary/{{ vocabulary.slug }}/">{{ vocabulary.name }}</option>
+        {% endfor %}
+        </select>
+        </p>
+</form>
+</div>
+<!--<div class="cbb"> 
+	<h3>COMPARE</h3> 
+	<p class="subhead">THIS PRODUCT</p> 
+	<p>Side-by-side view of up to 5 products</p> 
+	<p class="smaller">Click tickbox to remove</p> 
+	<form 
+		action="/vocabulary/compare/" 
+		method="get"
+		id="frmcompareform"
+	>
+		<ul id="compareList" class="checkboxlist"> 
+		</ul> 
+		<p>
+		<input 
+			src="/media/img/formbuttoncompare.gif" 
+			alt="compare these products" 
+			class="searchbutton" 
+			value="search" 
+			type="image"
+		/>
+		</p>
+	</form>	
+</div>
+<div id="{{ vocabulary.slug }}_td" class="tickbox">
+	Add to COMPARE list
+	<input 
+		id="{{ vocabulary.slug }}" 
+		type="checkbox" 
+		class="product" 
+		name="vocabulary" 
+		value="{{ vocabulary.name }}" 
+	/>
+</div>-->
+<div class="cbb"> 
+	<h3>COMPARE</h3> 
+	<p class="subhead">THIS PRODUCT</p>
+    
+    <div id="{{ vocabulary.slug }}_td" class="tickbox">       
+        <input 
+            id="{{ vocabulary.slug }}" 
+            type="checkbox" 
+            class="product" 
+            name="vocabulary" 
+            value="{{ vocabulary.name }}" 
+	/>
+    	<label for="{{ vocabulary.slug }}">
+    		<p class="smaller">Add to COMPARE list</p>
+         </label>
+     </div>
+	<p>Side-by-side view of up to 5 products</p> 
+	<!--<p class="smaller">Click tickbox to remove</p>--> 
+	<form 
+		action="/vocabularies/compare/" 
+		method="get"
+		id="frmcompareform"
+	>
+		<ul id="compareList" class="checkboxlist"> 
+		</ul> 
+		<p>
+		<input 
+			src="/media/img/formbuttoncompare.gif" 
+			alt="compare these products" 
+			class="searchbutton" 
+			value="search" 
+			type="image"
+		/>
+		</p>
+	</form>	
+</div>
+{% endblock %}

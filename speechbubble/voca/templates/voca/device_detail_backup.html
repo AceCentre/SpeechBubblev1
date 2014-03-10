@@ -1,0 +1,256 @@
+{% extends "threecol.html" %}
+
+{% block title %}{{ device.name }}{% endblock %}
+
+{% block breadcrumbs %}
+	<p>You are here: <a href="/">home</a> &gt; <a href="/devices/">devices</a> &gt; {{ device.name }}</p>
+{% endblock %}
+
+{% block content %}
+	<!-- <table 
+		summary="A table of selected features of the product"
+		cellspacing="2" 
+		class="bodytabletwo"
+	>
+		<tr>
+			<th scope="row" class="thtop">Supplier(s):</th>
+			<td>
+			{% for supplier in device.suppliers.all %}
+				{% if not forloop.last %}
+				<a href="/supplier/{{ supplier.id }}/">{{ supplier.name }}</a><br />
+				{% else %}
+				<a href="/supplier/{{ supplier.id }}/">{{ supplier.name }}</a>
+				{% endif %}
+			{% endfor %}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Size</th>
+			<td>{{ device.width_cm }} &times; {{ device.height_cm }} &times; {{ device.depth_cm }}cm</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Access</th>
+			<td>
+				{% for access_method in device.access_method.all %}
+				{{ access_method.name }}, 
+				{% endfor %}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Weight:</th>
+			<td>{{ device.weight_kg }}kg</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Guide Price:</th>
+			<td>&pound;{{ device.guide_price_gbp }}</td>
+		</tr>
+	</table> -->
+
+	<div id="gallerycontainer">
+	<div id="gallery" class="content">
+		<div id="slideshow" class="slideshow"></div>
+	</div>
+	<div id="thumbs" class="navigation">
+		<ul class="thumbs noscript">
+		{% for image in device.images.all %}
+			<li>
+				<a 
+					class="thumb" 
+				{% if image.image.small %}
+					href="{{ image.image.small }}" 
+				{% else %}
+					href="{{ image.image.original }}" 
+				{% endif %}
+					title="Image of {{ device.name }}"
+				>
+				{% if image.image.small %}
+					<!-- small image exists -->
+				{% endif %}
+					<img 
+						src="{{ image.image.cropped }}" 
+						alt="Image of {{ device.name }}"
+					/>
+				</a>
+			</li>
+		{% endfor %}
+		</ul>
+	</div>
+	</div>
+	<div id="long_description" style="clear: both;">
+		{{ device.long_description|safe }}
+	</div>
+	<h2>Specifications</h2>
+	<table summary="A table of product specifications" class="spectable">
+		<tr>
+			<th scope="row" class="thtop">Supplier(s):</th>
+			<td>
+			{% for supplier in device.suppliers.all %}
+				{% if not forloop.last %}
+				<a href="/supplier/{{ supplier.id }}/">{{ supplier.name }}</a><br />
+				{% else %}
+				<a href="/supplier/{{ supplier.id }}/">{{ supplier.name }}</a>
+				{% endif %}
+			{% endfor %}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Size</th>
+			<td>{{ device.width_cm }} &times; {{ device.height_cm }} &times; {{ device.depth_cm }}cm</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Weight</th>
+			<td>{{ device.weight_kg }}kg</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Access method</th>
+			<td>
+				{% for access_method in device.access_method.all %}
+				{{ access_method.name }}, 
+				{% endfor %}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Max number of messages</th>
+			<td>{{ device.max_number_messages }}</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Number of message levels</th>
+			<td>{{ device.number_message_levels }}</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Speech type</th>
+			<td>{{ device.get_speech_type_display }}</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Touchscreen size</th>
+			<td>{{ device.get_touchscreen_display }}</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Environmental control</th>
+			<td>
+				{% if software.environmental_control %}
+		Yes
+		{% else %}
+		No
+				{% endif %}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Mobile phone capability</th>
+			<td>
+				{% if device.mobile_phone_capable %}
+		Yes
+		{% else %}
+		No
+				{% endif %}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Battery life between charges</th>
+			<td>{{ device.battery_life_hours }} hours</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Wheelchair mounting plate/fixing</th>
+			<td>{{ device.get_wheelchair_mount_display }}</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Wheelchair mounting &mdash; compatible systems</th>
+			<td>
+				{% for wheelchair_mount in device.compatible_wheelchair_mount.all %}
+				{{ wheelchair_mount.name }}, 
+				{% endfor %}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Table stand</th>
+			<td>{{ device.get_table_stand_display }}</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Colours</th>
+			<td>{{ device.colours }}</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Guide Price</th>
+			<td>&pound;{{ device.guide_price_gbp }}</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Communication software included</th>
+			<td>Choice of {{ device.number_supplied_software }} of
+				{% for software in device.supplied_software.all %}
+				<a href="/software/{{ software.id }}/">{{ software.name }}</a>, 
+				{% endfor %}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Vocabularies included</th>
+			<td>Choice of {{ device.number_supplied_vocabularies }} of
+				{% for vocabulary in device.supplied_vocabularies.all %}
+				<a href="/vocabulary/{{ vocabulary.id }}/">{{ vocabulary.name }}</a>, 
+				{% endfor %}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">Warranty</th>
+			<td>{{ device.warranty_notes|safe }}</td>
+		</tr>
+	</table>
+	<p class="lastpara">Note that the information above is correct to the best of the ACE Centre's knowledge. However, always check with the supplier(s).</p>
+	<p><a href="#">back to top</a></p>
+
+<script type="text/javascript" src="/media/js/jquery/jquery.galleriffic.js"></script>
+<script type="text/javascript" src="/media/js/jquery/jquery.truncator.js"></script>
+<script type="text/javascript">
+// We only want these styles applied when javascript is enabled
+$('div.navigation').css({'width' : '250px', 'float' : 'left'});
+$('div.content').css('display', 'block');
+ 
+$(document).ready(function() {				
+	// Initialize Minimal Galleriffic Gallery
+	$('#gallery').galleriffic('#thumbs', {
+		imageContainerSel: 	'#slideshow',
+		controlsContainerSel: 	'#controls',
+		numThumbs:		3 // The number of thumbnails to show
+	});
+	// Initialize jTruncate for description
+	$('#long_description').truncate({max_length: 300});
+});
+</script>
+{% endblock %}
+
+{% block rightcontent %}
+<div class="downloads">
+	<p class="subhead">DOWNLOADS</p>
+	<ul>
+	{% for document in device.documents.all %}
+		<li class="{{ document.file.path|slice:"-3:" }}">
+			<a href="{{ document.file.url }}">{{ document.name }} ({{ document.file.path|slice:"-3:" }}, {{document.file.size|filesizeformat }})</a>
+		</li>
+	{% endfor %}
+	</ul>
+</div>
+
+
+<div class="cbb">
+	<h3>FIND</h3>
+	<p class="subhead">SIMILAR AIDS</p>
+	<p>Find products with similar:</p>
+	<form action="" method="post" id="frmcompareform">
+		<ul class="checkboxlist">
+			<li><input type="radio" name="radios" value="checkboxvalue1" id="item1" /><label for="item1">Screen size</label></li>
+			<li><input type="radio" name="radios" value="checkboxvalue2" id="item2" /><label for="item2">Weight</label></li>
+			<li><input type="radio" name="radios" value="checkboxvalue3" id="item3" /><label for="item3">Operating system</label></li>
+			<li><input type="radio" name="radios" value="checkboxvalue4" id="item4" /><label for="item4">Supplier</label></li>
+			<li><input type="radio" name="radios" value="checkboxvalue5" id="item5" /><label for="item5">No of messages</label></li>
+		</ul>
+		<p>
+		<input 
+			src="/media/img/formbuttonsimilar.gif" 
+			alt="Find Similar Aids" 
+			class="searchbutton" 
+			value="search" 
+			type="image" 
+		/>
+		</p>
+	</form>	
+</div>
+{% endblock %}

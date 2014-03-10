@@ -1,0 +1,19 @@
+{% extends "threecol.html" %}
+
+{% block title %}Suppliers{% endblock %}
+
+{% block breadcrumbs %}
+    <p>You are here: <a href="/">home</a> &gt; suppliers</p>
+{% endblock %}
+
+{% block content %}
+    <ul>
+        {% for supplier in supplier_list %}
+            <li>
+                <a href="/supplier/{{ supplier.slug }}">
+                    {{ supplier.name }}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

@@ -1,0 +1,1174 @@
+/* ----------------------------------------- */
+/* ---- RESET STYLES FOR ALL BROWSERS ------ */
+/* --------- AUTHOR: NICK RIGBY ------------ */
+/* ----------------------------------------- */
+	
+body, p, blockquote {
+	margin: 0;
+	padding: 0;
+	line-height:1.4;
+	}
+
+a img, iframe { border: none; }
+
+
+/* using 100.01% eliminates most size inheritance errors in IE and some versions of Opera.*/
+h1, h2, h3, h4, h5, h6 {
+	margin: 0;
+	padding: 0;
+	font-size: 100.01%;
+	font-family:Tahoma, Arial, Helvetica, sans-serif;
+	}
+		
+ul, ol, dl, li, dt, dd {
+	margin: 0;
+	padding: 0;
+	}
+	
+a, a:link {}
+a:visited {}
+a:hover {}
+a:active {}
+
+form, fieldset {
+	margin: 0;
+	padding: 0;
+	}
+	
+fieldset { border: 1px solid #000; }
+
+legend {
+	padding: 0;
+	color: #000;
+	}
+
+input, textarea, select {
+	margin: 0;
+	padding: 1px;
+	font-size: 100%;
+	font-family: inherit;
+	}
+	
+select { padding: 0; }
+
+
+
+
+/* ----------------------------------------- */
+/* ---- MAIN STYLES DOWN TO THE NAV BAR ---- */
+/* ----------------------------------------- */
+
+body {
+	text-align:center;
+	min-width:160mm;
+	max-width:100%;
+	font-size:10pt;
+	line-height:13.5pt;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	background-image:none;
+	background-color:#fff;
+	}
+
+ 
+#pagewrapperouter {
+	margin:0 auto;
+	width:160mm;
+	max-width:100%;
+	text-align:left;
+	padding-top:8mm; /*rather than an 8px top margin on the header, otherwise Opera will jump*/
+	}
+
+#header	{
+	width:100%;
+	height:48px;
+	text-align:right;
+	margin:0 0 7mm 0;
+	}
+
+#acelogo	{
+	float:left;
+	}
+	
+#header #acelogo a	{
+	margin:0;
+	padding:0;
+	background-color:#fff;
+	display:inline;
+	}
+
+#contentleft	{
+	display:none;
+
+/* Next style for one-col layout only... */
+.contentonecol	{
+	background-color:#fff;
+	}
+	
+	
+/* Next style for two-col left sidebar layout only... */
+#contenttwocol	{
+	float:left;
+	width:67em;
+	/*max-width:74%;*/
+	margin:0 0 1em 2em;
+	padding:0;
+	background-color:#fff;
+	display:inline; /* prevents the IE margin doubling bug */
+	}
+	
+
+/* Next style for two-col right sidebar layout only... */
+#contenttwocolright	{
+	display:none;
+	float:left;
+	width:67em;
+	/*max-width:74%;*/
+	margin:0 0 1em 0;
+	padding:0;
+	background-color:#fff;
+	display:inline; /* prevents the IE margin doubling bug */
+	}
+
+
+/* ... Following two styles for three-col layout only */
+#contentcentreandrightwrapper	{
+	float:left;
+	width:160mm;
+	/*max-width:74%;*/
+	margin:0;
+	padding:0;
+	display:inline; /* prevents the IE margin doubling bug */
+	}
+
+#contentcentrewrapper	{
+	float:left;
+	width:160mm;
+	/*max-width:72%;*/
+	background-color:#fff;
+	margin:0;
+	padding:0;
+	display:inline; /* prevents the IE margin doubling bug */
+	}
+
+
+#contentcentre	{
+	display:block;
+	margin:0;
+	padding:0;
+	min-height:300px;
+	}
+
+/* ... Following style for three-col layout only */
+#contentright	{
+	display:none;
+	float:right;
+	width:15em;
+	min-height:300px;
+	/*max-width:34%;*/
+	margin:4em 0 0 2em;
+	padding:0;
+	display:inline; /* prevents the IE margin doubling bug */
+	text-align:left;
+	position:relative;
+	top:0px; /* will need to fiddle with this later */
+	}
+	
+	
+#footer	{
+	display:none;
+	}
+
+#tinylogos	{
+	float:left;
+	margin:0.5em 0 0 1em;
+	display:inline; /* prevents the IE margin doubling bug */
+	}
+	
+.clear	{
+	clear:both;
+	display:block;
+	margin:0;
+	padding:0;
+	}
+
+.hidden {
+	display: none;
+}
+
+
+/* ---------------------------------- */
+/* -------- RED BAR STYLES ---------- */
+/* ---------------------------------- */
+
+#titlebar, #straplinebar {
+	clear:both;
+	width:160mm; /* required to close up gap between tab bar and red strip underneath it */
+	background:url(/media/img/redslideRH_7_588.gif) no-repeat right top;
+	}
+
+#straplinebar { /* overrides the graphic in the rule above */
+	background:url(/media/img/redslidebottomRH_7_590.gif) no-repeat right bottom;
+	}
+	
+.titlebarLH, .straplinebarLH {
+	background:url(/media/img/redslideLH_7_589.gif) no-repeat left top;
+	text-align:left;
+	}
+
+.straplinebarLH { /* overrides the graphic in the rule above */
+	background:url(/media/img/redslidebottomLH_7_591.gif) no-repeat left bottom;
+	}
+
+.straplinebarLH p {
+	font-size:120%;
+	text-align:right;
+	padding:9px 1em 9px;
+	color:#fff;
+	margin-right:0.5em;
+	}
+
+
+/* ------------------------------------------- */
+/* ------------ SEARCHBOX STYLES ------------- */
+/* ------------------------------------------- */
+
+#searchbox {
+	display:none;
+	}
+	
+/* The following searchbox CSS (and HTML) is based on that from www.thinkvit@min.com site, with thanks */
+	
+form#searchformx fieldset { padding: 0; text-align: center; border: none;}
+form#searchformx label { display: none;}
+form#searchformx input { font-size: 130%; vertical-align: middle;}
+form#searchformx input.formbutton { color: #fff; font-weight: bold; width: 56px;}
+form#searchformx input#sitesearch { width: 10em;}
+
+#searchbox .searchbutton {
+    float:right;
+    display:inline;
+    height:2em;
+    margin:0 0 0 0.5em;     
+	}
+
+#searchbox .textbox {
+    display:block;  
+    position:relative;
+	top:3px;
+    overflow:hidden;
+    height:1.6em;
+    background:#fff;
+    border:solid 1px #222;
+    border-right-color:#aaa;
+    border-bottom-color:#aaa;
+	}
+
+#searchbox .textbox input {
+    display:block;
+    width:100%;
+    height:100%;
+    position:absolute;
+    border:none;
+    background:#fff;
+    top:0;
+    left:0;
+	} 
+	
+	
+
+
+/* ------------------------------------------- */
+/* --------------- TEXT STYLES --------------- */
+/* ------------------------------------------- */
+
+#contentcentre p,
+#contentleft p,
+#contentright p {
+	font-size:10pt;
+	margin:5mm 0 0 0;
+	color:#484633;
+	}
+
+/* Note that the style below has an extra bottom margin - this is to mainly to add space between
+it and the top of tables, which ignore any margins set on them in some browsers (eg IE6/Win)*/
+#long_description > p:first-child {
+	/*clear:both;*/
+	margin:5mm 0 5mm 0;
+	color:#e4312b;
+	padding:0;
+	}
+
+#contentcentre .firstpara,
+#contentleft .firstpara,
+#contentright .firstpara {
+	clear:both;
+	margin:5mm 0 5mm 0;
+	color:#e4312b;
+	padding:0;
+	}
+
+#contentcentre .italic,
+#contentleft .italic,
+#contentright .italic {
+	font-style:italic;
+	}
+	
+#contentcentre .bold,
+#contentleft .bold,
+#contentright .bold {
+	font-weight:bold;
+	}
+	
+#contentcentre .right,
+#contentleft .right,
+#contentright .right {
+	text-align:right;
+	}
+
+#contentcentre h1, .titlebarLH h1 {
+	color:#fff;
+	font-size:24pt;
+	line-height:27pt;
+	padding:5mm 0 5mm 5mm;
+	margin:0;
+	}
+		
+#contentcentre h2,
+#contentleft h2,
+#contentright h2 {
+	clear:both;
+	border-top:5pt solid #fff; /* forces a top gap below images in all browsers but IE (where it has to be replaced by a margin!) */
+	margin:0;
+	color:#E4312B;
+	font-size:16pt;
+	line-height:19pt;
+	font-weight:normal;
+	}
+
+#contentcentre h3 {
+	clear:both;
+	border-top:5mm solid #fff; /* forces a top gap below images in all browsers but IE (where it has to be replaced by a margin!) */
+	margin:0;
+	color:#484633;
+	font-size:12pt;
+	line-height:15.5pt;
+	font-weight:bold;
+	}
+
+#contentcentre h3.large,
+#contentleft h3.large,
+#contentright h3.large {
+	font-size:20pt;
+	}
+
+#contentcentre ul,
+#contentleft ul,
+#contentright ul {
+	clear:both;
+	border-top:5mm solid #fff; /* forces a top gap below images in all browsers but IE (where it has to be removed...!) */
+	margin:0 0 5mm 10mm;
+	padding:0;
+	color:#484633;
+	font-size:10pt;
+	}
+	
+#contentcentre li,
+#contentleft li,
+#contentright li {
+	margin:0 0 5mm 0;
+	padding:0;
+	}
+	
+#contentcentre a,
+#contentleft a,
+#contentright a {
+	color:#369;
+	/*font-size:120%;*/
+	}
+
+#contentcentre a:hover,
+#contentleft a:hover,
+#contentright a:hover {
+	background-color:#369;
+	color:#ffffff;
+	text-decoration:none;
+	}
+	
+#contentcentre a:current,
+#contentleft a:current,
+#contentright a:current {
+	background-color:#f54a44;
+	color:#ffffff;
+	text-decoration:none;
+	}
+		
+/* LEAVE DISPLAY:BLOCK AS IT IS in this style - it's necessary for shifting the text down. 
+The border-top style forces a gap over the text in all browsers but IE, which adds it by default.
+The border in IE is removed through the conditional style sheet. */
+#contentcentre .move_this_text_below_image,
+#contentleft .move_this_text_below_image,
+#contentright .move_this_text_below_image {
+	display:block;
+	clear:both;
+	border-top:5mm solid #fff;
+	margin:10pt 0 0 0;
+	}
+
+#contentcentre p.notopmargin,
+#contentleft p.notopmargin,
+#contentright p.notopmargin {
+	margin:0;
+	padding:0;
+	font-size:120%;
+	}
+	
+#contentcentre .indent,
+#contentleft .indent,
+#contentright .indent {
+	margin:5mm 10mm 0 10mm;
+	padding:0;
+	}
+
+#contentcentre .quote	{
+	font-style:italic;
+	margin:5mm 10mm 0 10mm;
+	padding:0;
+	}
+
+
+
+/* ---------------------------------------------------- */
+/* ----------------- BREADCRUMB STYLES ---------------- */
+/* ---------------------------------------------------- */
+
+#breadcrumb	{
+	display:none;
+	}
+
+#breadcrumb	p {
+	color:#f54a44;
+	}
+
+#breadcrumb	p a {
+	color:#369;
+	}
+	
+#breadcrumb p a:hover {
+	background-color:#369;
+	color:#ffffff;
+	}
+
+
+
+/* ---------------------------------------------------- */
+/* ------------- CONTENTS IMAGE STYLES ---------------- */
+/* ---------------------------------------------------- */
+
+#contentcentre img	{
+	border:none;
+	}
+
+#contentcentre img.imagefloatleft	{
+	margin:5mm 10mm 0 0;
+	float:left;
+	}
+		
+#contentcentre img.imagefloatright	{
+	margin:5mm 0 0 10mm;
+	padding:0;
+	float:right;
+	}
+
+/* Note that the style below will not work in WIN IE 5 and 5.5, To do that, I'd have to use text-align:center 
+on the contentinner div, and then text-align:left everything within it. So it's not done yet. Note also that 
+the margin statement is split into four, to be kind to Opera. */
+#contentcentre img.imagecentre	{
+	margin-top:5mm;
+	margin-bottom:0;
+	margin-left:auto;
+	margin-right:auto;
+	padding:0;
+	}
+
+
+/* --------------------------------------- */
+/* ------ HORIZONTAL NAV BAR STYLES ------ */
+/* --------------------------------------- */
+
+#header ul, #footer ul {
+	display:none;
+	margin:0;
+    padding:0;
+    list-style:none;
+	float:right;
+	font-size:120%;
+	line-height:1.2;
+    }
+
+#header ul {margin-top:15px;} /* tweak header menu styles */	
+#footer ul {margin:1em 0;} /* tweak footer styles */
+
+#header ul li, #footer ul li {
+    float:right;
+    margin:0;
+	background:url(/media/img/listline_7_619.gif) no-repeat left top;
+    padding:0;
+    }
+	
+#header ul li.noline, #footer ul li.noline {
+    float:right;
+    margin:0;
+	background-image:none;
+    padding:0;
+    }
+
+#header a, #footer a {
+	display:block;
+	text-decoration:none;
+	font-weight:normal;
+	padding:0 1em;
+	color:#369;
+    }
+	
+#header a:hover, #footer a:hover {
+	background-color:#369;	
+	color:#fff;
+    }
+	
+#footer a.acelink {
+	display:inline;
+	margin:0;
+	padding:1em 0 0 0;
+    }
+
+#footer p {
+	float:right;
+	margin:0;
+	padding:0 1em;
+    }
+
+
+/* ----------------------------------------- */
+/* ------------- TABLE STYLES -------------- */
+/* ----------------------------------------- */
+
+/* The following styles are for the product page top table  */
+	
+table.bodytabletwo	{
+	float:right;
+	display:inline; /* prevents the IE margin doubling bug */
+	width:45%;
+	margin-top:1em;
+	margin-bottom:1em;
+	margin-left:auto;
+	margin-right:auto;
+	padding:0;
+	font-size:120%;
+	line-height:1.4;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	color:#484633;
+	/*border:1px solid #6699cc;*/
+	}
+
+table.bodytabletwo th	{
+	width:34%;
+	padding:0.2em 0.8em 0.2em 0;
+	text-align:right;
+	border-top:1px solid #fff; /* invisible, but brings text down a tad into line with data */
+	font-weight:normal;
+	}
+	
+table.bodytabletwo th.thtop	{
+	width:34%;
+	padding:0.2em 0.8em 0.2em 0;
+	text-align:right;
+	vertical-align:top;
+	border-top:1px solid #fff; /* invisible, but brings text down a tad into line with data */
+	font-weight:normal;
+	}
+	
+table.bodytabletwo td	{
+	width:66%;
+	padding:0.2em 0 0.2em 0;
+	/*background-color:#e1eaf0;*/
+	vertical-align:top;
+	border-top:1px solid #e1eaf0;
+	}
+	
+table.bodytabletwo td.tdbottom	{
+	width:66%;
+	padding:0.2em 0 0.2em 0;
+	/*background-color:#e1eaf0;*/
+	vertical-align:top;
+	border-top:1px solid #e1eaf0;
+	border-bottom:1px solid #e1eaf0;
+	}
+
+#contentcentre table.bodytabletwo tbody tr td a	{
+	font-size:100%; /* for some reason it needs the #contentcentre prefix */
+	}
+
+
+/* The following styles are for the product specification table  */
+
+table.spectable	{
+	margin-top:5mm;
+	margin-bottom:5mm;
+	margin-left:auto;
+	margin-right:auto;
+	padding:0;
+	font-size:10pt;
+	line-height:13.5pt;
+	font-family:Arial, Helvetica, sans-serif;
+	color:#333333;
+	border:1px solid #6699cc;
+	}
+
+table.spectable th	{
+	width:34%;
+	padding:2mm;
+	text-align:right;
+	font-weight:normal;
+	}
+	
+table.spectable th.thtop	{
+	width:34%;
+	padding:2mm;
+	text-align:right;
+	vertical-align:top;
+	font-weight:normal;
+	}
+	
+table.spectable td	{
+	width:66%;
+	padding:2mm;
+	background-color:#e1eaf0;
+	vertical-align:top;
+	}
+
+table.spectable td input{
+	margin:0 0; /* was 0.2em 0, but IE put too much space in  */
+	}
+	
+#contentcentre table.spectable tbody tr td a	{
+	font-size:100%; /* for some reason it needs the #contentcentre prefix AND yes, it is 100% */
+	}
+
+#contentcentre table.spectable tr td p	{
+	color:#333; /* for some reason it needs the #contentcentre prefix */
+	font-size:100%;
+	margin:0;
+	}
+
+#contentcentre table.spectable tr td ul	{
+	list-style-type:none; /* for some reason it needs the #contentcentre prefix */
+	margin:0;
+	padding:0;
+	font-size:10pt;
+	line-height:13.5pt;
+	border:1px solid #e1eaf0; /* needed or a gap will appear at the top */
+	}
+
+
+
+/* The following styles are for the comparison table  */
+
+table.comparisontable	{
+	margin-top:3mm;
+	margin-bottom:0;
+	margin-left:0;
+	margin-right:0;
+	padding:0;
+	font-size:10pt;
+	line-height:13.5pt;
+	font-family:Arial, Helvetica, sans-serif;
+	color:#333333;
+	border:1px solid #6699cc;
+	}
+
+table.comparisontable th	{
+	width:15em;
+	padding:0.4em 0.4em 0.4em 0.4em;
+	text-align:right;
+	font-weight:bold;
+	font-size:120%;
+	vertical-align:top;
+	color:#fff;
+	background-color:#69c;
+	}
+	
+table.comparisontable th.thtop	{
+	width:15em;
+	padding:0.4em 0.4em 0.4em 0.4em;
+	text-align:right;
+	vertical-align:top;
+	font-weight:normal;
+	background-color:#fff;
+	}
+	
+table.comparisontable td	{
+	width:40mm;
+	padding:2mm;
+	background-color:#e1eaf0;
+	vertical-align:top;
+	font-size:10pt;
+	}
+
+table.comparisontable td.toprow	{
+	width:40mm;
+	padding:2mm;
+	background-color:#fff;
+	vertical-align:top;
+	font-size:10pt;
+	}
+	
+table.comparisontable td.toprow a.comparisontitle	{
+	display:block;
+	font-weight:bold;
+	font-size:16pt;
+	text-decoration:none;
+	}
+	
+table.comparisontable td.toprow	a.comparisonimage:hover	{
+	background-color:fff; !important
+	}
+	
+table.comparisontable td.darker	{
+	background-color:#CEDFEB;
+	font-size:10pt;
+	}
+
+table.comparisontable td input	{
+	margin:0 0; /* was 0.2em 0, but IE put too much space in  */
+	}
+
+table.comparisontable td a	{
+	/*display:block;*/
+	font-size:10pt;
+	text-decoration:underline;
+	margin:0;
+	padding:0;
+	}
+	
+#contentcentre table.comparisontable tr td p	{
+	color:#333; /* for some reason it needs the #contentcentre prefix */
+	font-size:10pt;
+	margin:0;
+	}
+
+
+
+/* The following styles are for a standard three-column table  */
+	
+table.bodytablethree	{
+	margin-top:5mm;
+	margin-bottom:5mm;
+	margin-left:auto;
+	margin-right:auto;
+	padding:0;
+	font-size:10pt;
+	line-height:13.5pt;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	color:#484633;
+	border:1px solid #6699cc;
+	}
+
+table.bodytablethree th	{
+	width:20%;
+	padding:2mm;
+	text-align:right;
+	}
+			
+table.bodytablethree td	{
+	width:60%;
+	padding:2mm;
+	background-color:#e1eaf0;
+	vertical-align:top;
+	font-size:10pt;
+	}
+
+table.bodytablethree td	a {text-decoration:none; font-weight:bold; margin:0; padding:0; font-size:10pt; line-height:13.5pt;}
+table.bodytablethree td	p {font-size:100%; margin:-3mm 0 0 0; padding:0; line-height:1.4;}
+
+table.bodytablethree td.tickbox	{
+	width:20%;
+	padding:2mm;
+	background-color:#e1eaf0;
+	text-align:center;
+	vertical-align:middle;
+	}
+
+
+	
+/* -------------------------------------------------- */
+/* ----- HIDDEN SEARCH LABEL & SKIPLINK STYLES ------ */
+/* -------------------------------------------------- */
+
+/* Required for accessibility. Search labels taken from: */
+/* www-306.ibm.com/able//guidelines/web/webforms.html */
+
+label.hidden, .skiplink	{
+	display:none;
+	position:absolute;
+	left:0px;
+	top:-9000px;
+	width:1px;
+	height:1px;
+	overflow:hidden;
+	}
+	
+.printonly	{
+	display:none;
+	}
+
+
+/* -------------------------------------------------- */
+/* ------- HORIZONTAL ALPABETICAL LIST STYLES ------- */
+/* -------------------------------------------------- */
+
+#contentcentre div.alphalist a {
+	display:none;
+	}
+
+/* -------------------------------------------------- */
+/* ----- PRINT, HOME AND HELP ICON STYLES ----------- */
+/* -------------------------------------------------- */
+
+#contentleft #printhomehelp {
+	margin:0 0 2em 0;
+	padding:0;
+	}
+
+#contentleft #printiconbox,
+#contentleft #homeiconbox,
+#contentleft #helpiconbox	{
+	margin:0 0 0.5em 0;
+	padding:0;
+	}	
+
+#contentleft #printiconbox a,
+#contentleft #homeiconbox a,
+#contentleft #helpiconbox a {
+	display:block;
+	padding:5px 0 5px 41px;
+	background:url(/media/img/printicon_7_597.gif) transparent no-repeat 12px center;
+	text-decoration:none; 
+	color:#369;
+	font-size:100%;
+	font-weight:bold;
+	}
+
+#contentleft #homeiconbox a {background:url(/media/img/homeicon.gif) transparent no-repeat 12px center;}
+#contentleft #helpiconbox a {background:url(/media/img/helpicon.gif) transparent no-repeat 12px center;}
+
+#contentleft #printiconbox a:hover {background:url(/media/img/printicon_7_597.gif) transparent no-repeat 12px center; color:#fff; background-color:#369;}
+#contentleft #homeiconbox a:hover {background:url(/media/img/homeicon.gif) transparent no-repeat 12px center; color:#fff; background-color:#369;}
+#contentleft #helpiconbox a:hover {background:url(/media/img/helpicon.gif) transparent no-repeat 12px center; color:#fff; background-color:#369;}
+
+
+
+/* -------------------------------------------------- */
+/* ---------- 'FILTER YOUR RESULTS' STYLES ---------- */
+/* -------------------------------------------------- */
+
+#contentleft h3 {
+	font-weight:bold;
+	color:#369;
+	margin:0;
+	padding:0;
+	font-size:190%;
+	line-height:1;
+	}
+
+#contentleft p.subhead {
+	display:block;
+	font-weight:bold;
+	color:#369;
+	margin:0;
+	padding:0;
+	font-size:120%;
+	}
+
+#contentleft form {
+	margin:0;
+	padding:0;
+	font-size:120%;
+	color:#484633;
+	}
+
+/* This version for the 'Choose' blue box which needs a smaller text size for some reason */
+#contentleft form.textsizeadjust {margin:0; padding:0; font-size:100%; color:#484633;}
+
+#contentleft form select,
+#contentleft form.textsizeadjust select,
+#contentleft form option,
+#contentleft form.textsizeadjust option {
+	width:11em;
+	font-size:100%;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	vertical-align: middle;
+	margin:0 0 0.5em 0;
+	}
+
+#contentleft .formlabel,
+#contentleft form.textsizeadjust formlabel {
+	display:block;
+	margin:0.5em 0 0.2em 0;
+	padding:0;
+	font-size:100%;
+	}
+		
+#contentleft .searchbutton {
+	margin:0.5em 0 0 0;     
+	}
+
+
+
+/* -------------------------------------------------- */
+/* ---------- 'WILL WORK WITH...' STYLES ------------ */
+/* -------------------------------------------------- */
+
+
+#contentleft .willworkwith {
+	margin:1.5em 0 2em 0;
+	padding:0 0 0 1em;
+	}
+
+#contentleft .willworkwith ul {
+	border-top:none;
+	margin:0.4em 0 0 0;
+	padding:0;
+	list-style-type:none;
+	line-height:1.5;
+	}
+
+#contentleft .willworkwith ul li {
+	margin:0;
+	padding:0;
+	}
+
+#contentleft .willworkwith ul li a {
+	background-image:none;
+	font-size:100%;
+	margin:0;
+	padding:0.1em 0 0.1em 0;
+	color:#369;
+	text-decoration:none;
+	}
+	
+#contentleft .willworkwith ul li a:hover	{
+	background-image:none;
+	background-color:#369;
+	font-size:100%;
+	color:#ffffff;
+  	text-decoration:none;
+  	margin:0;
+	}
+
+
+/* --------------------------------------------------------------- */
+/* ------------------- 'DOWNLOADS' STYLES ------------------------ */
+/* --------------------------------------------------------------- */
+
+
+#contentright .downloads {
+	margin:2em 0 2em 0;
+	padding:0;
+	}
+	
+#contentright .downloads ul {
+	border-top:1px solid #ccc;
+	margin:0.5em 0 0 0;
+	padding:0;
+	list-style-type:none;
+	font-size:80%;
+	line-height:1.5;
+	}
+
+#contentright .downloads ul li {
+	margin:0;
+	padding:0.7em 0 0.5em 0;
+	border-bottom:1px solid #ccc;
+	}
+
+#contentright .downloads ul li a {
+	font-size:120%;
+	margin:0;
+	padding:0.4em 0 0.4em 23px;
+	color:#369;
+	text-decoration:none;
+	}
+	
+#contentright .downloads ul li.pdf a {background:url(/media/img/pdf.gif) transparent no-repeat 0 center; }
+#contentright .downloads ul li.doc a {background:url(/media/img/msw.gif) transparent no-repeat 0 center; }
+#contentright .downloads ul li.xls a {background:url(/media/img/xls.gif) transparent no-repeat 0 center; }
+#contentright .downloads ul li.zip a {background:url(/media/img/zip.gif) transparent no-repeat 0 center; }
+#contentright .downloads ul li.ppt a {background:url(/media/img/ppt.gif) transparent no-repeat 0 center; }
+#contentright .downloads ul li.def a {background:url(/media/img/defaultdoctype.gif) transparent no-repeat 0 center; }
+
+#contentright .downloads ul li a:hover	{
+	background-color:#369;
+	font-size:120%;
+	color:#ffffff;
+  	text-decoration:none;
+  	margin:0;
+	}
+
+
+/* -------------------------------------------------------------- */
+/* ------------------- FOR 'CHOOSE DEVICE' BOX LENGTH ------------ */
+/* --------------------------------------------------------------- */
+
+/* This version for the 'Choose' blue box which needs a smaller text size for some reason */
+#contentright form.textsizeadjust {margin:0; padding:0; font-size:100%; color:#484633;}
+
+#contentright form select,
+#contentright form.textsizeadjust select,
+#contentright form option,
+#contentright form.textsizeadjust option {
+	width:11em;
+	font-size:100%;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	vertical-align: middle;
+	margin:0 0 0.5em 0;
+	}
+
+
+
+
+
+/* -------------------------------------------------- */
+/* ----- 'COMPARE THIS PRODUCT' STYLES -------- */
+/* -------------------------------------------------- */
+
+#contentright h3 {
+	font-weight:bold;
+	color:#369;
+	margin:0;
+	padding:0;
+	font-size:190%;
+	line-height:1;
+	}
+
+#contentright p.subhead {
+	display:block;
+	font-weight:bold;
+	color:#369;
+	margin:0;
+	padding:0;
+	font-size:120%;
+	}
+
+#contentright p.smaller {
+	font-size:100%;
+	margin-bottom:0.3em;
+	}
+
+#contentright p.smallerwithline {
+	font-size:100%;
+	border-bottom:1px solid #fff;
+	padding:1em 0 0.3em 0;
+	}
+	
+#contentright ul.checkboxlist {
+	list-style-type:none;
+	border-top:1px solid #fff;
+	margin:0.2em 0 0.2em 0;
+	padding:0;
+	font-size:110%;
+	}
+	
+#contentright ul.checkboxlist li {
+	margin:0;
+	padding:0.3em 0 0.3em 0;
+	border-bottom:1px solid #fff;
+	}
+	
+#contentright ul.checkboxlist li a {
+	font-size:100%;
+	font-weight:bold;
+	margin:0;
+	color:#369;
+	text-decoration:none;
+	}
+	
+#contentright ul.checkboxlist li a:hover	{
+	background-color:#369;
+	font-weight:bold;
+	font-size:100%;
+	color:#ffffff;
+  	text-decoration:none;
+  	margin:0;
+	}
+	
+#contentright .searchbutton {
+	margin:0.5em 0 0 0;     
+	}
+	
+/*--next style is for 'add to COMPARE list tickbox only--*/
+#contentright .tickbox {
+	font-size:100%;
+	margin:0;
+	color:#484633;
+	text-decoration:none;     
+	}
+
+#contentright input {margin-right:0.5em;}
+
+
+/* -------------------------------------------------- */
+/* ----- BLUE BORDERED BOX BACKGROUND STYLES -------- */
+/* -------------------------------------------------- */
+
+
+.cbb {padding:5px; margin:0;} /* For default use when javascript is unsupported */
+.cb {padding:0; background-color:#ccc;} /* Insert corners when JavaScript is on */
+.bt {
+	background:url(/media/img/bluebox_7_606.png) no-repeat 100% 0;
+	margin:0 0 0 9px;
+	height:9px;
+	}
+.bt div {
+	height:9px;
+	width:9px;
+	position:relative;
+	left:-9px;
+	background:url(/media/img/bluebox_7_606.png) no-repeat 0 0;
+	}
+.bb {
+	background:url(/media/img/bluebox_7_606.png) no-repeat 100% 100%;
+	margin:0 0 5px 9px;
+	height:9px;
+	}
+.bb div {
+	height:9px;
+	width:9px;
+	position:relative;
+	left:-9px;
+	background:url(/media/img/bluebox_7_606.png) no-repeat 0 100%;
+	}
+.i1 {
+	padding:0 0 0 9px;
+	background:url(/media/img/blueboxLH_7_607.png) repeat-y 0 0;
+	}
+.i2 {
+	padding:0 9px 0 0;
+	background:url(/media/img/blueboxRH_7_608.png) repeat-y 100% 0;
+	}
+.i3 {background-color:#e1eaf0;}
+
+
+/* Adding  a small font-size to the header and footer divs seems to fix a height bug in IE. */
+.bluelinkhead .i1 {background-image:url(/assets/blueboxtopLH_7_610.gif);}
+.bluelinkhead .i2 {background-image:url(/assets/blueboxtopRH_7_611.gif);}
+.bluelinkhead .bt, .bluelinkhead .bt div {background-image:url(/assets/linkboxtop_7_723.gif); font-size:1%; height:7px;}
+.bluelinkhead .bb, .bluelinkhead .bb div {background-image:none; position:absolute; left:-9000px;}
+.bluelinkhead .i3 {background-color:#369; line-height:1;}
+
+/* diff between this and bluelinkhead is that this doesnt have the brown tips on the corners */
+.bluehead .i1 {background-image:url(/assets/blueboxtopLH_7_610.gif);}
+.bluehead .i2 {background-image:url(/assets/blueboxtopRH_7_611.gif);}
+.bluehead .bt, .bluehead .bt div {background-image:url(/assets/blueboxtop_7_609.gif); font-size:1%; height:7px;}
+.bluehead .bb, .bluehead .bb div {background-image:none; position:absolute; left:-9000px;}
+.bluehead .i3 {background-color:#369; line-height:1;}
+

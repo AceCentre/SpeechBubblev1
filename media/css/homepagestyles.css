@@ -1,0 +1,440 @@
+/* ----------------------------------------- */
+/* ---- MAIN STYLES DOWN TO THE NAV BAR ---- */
+/* ----------------------------------------- */
+
+#pagewrapperouter {
+	margin:0 auto;
+	width:67em;
+	max-width:100%;
+	text-align:left;
+	padding-top:8px; /*rather than an 8px top margin on the header, otherwise Opera will jump*/
+	}
+	
+	
+
+/*for revised layout*/
+#splashgraphicgirl	{
+	position:relative;
+	float:left;
+	background:url(/media/img/splashspeechbubble.jpg) no-repeat left top;
+	width:100%;
+	height:140px;
+	border-top:2px solid white;
+	border-bottom:1em solid white;
+	}
+
+#splashtext	{
+	float:right;
+	background:url(/media/img/logoright.jpg) no-repeat left top;
+	width:473px;
+	height:140px;
+	padding-right:2em;
+	}
+
+#titlebar, #straplinebar {
+	clear:both;
+	width:100%; /* required to close up gap between tab bar and red strip underneath it */
+	background:url(/media/img/redslideRH_7_588.gif) no-repeat right top;
+	}
+
+#straplinebar { /* overrides the graphic in the rule above */
+	background:url(/media/img/redslidebottomRH_7_590.gif) no-repeat right bottom;
+	}
+	
+.titlebarLH, .straplinebarLH {
+	background:url(/media/img/redslideLH_7_589.gif) no-repeat left top;
+	text-align:left;
+	}
+
+.straplinebarLH { /* overrides the graphic in the rule above */
+	background:url(/media/img/redslidebottomLH_7_591.gif) no-repeat left bottom;
+	}
+
+.straplinebarLH p {
+	font-size:120%;
+	text-align:right;
+	padding:9px 1em 9px;
+	color:#fff;
+	margin-right:0.5em;
+	}
+
+/*end stuff for revised layout*/
+
+
+
+
+#splashgraphicontainer	{
+	width:66em;
+	margin:0 0 1em 0;
+	padding:0 0 0 1em;
+	}
+	
+#splashgraphicleft	{
+	float:left;
+	margin:0 0 0 7em;
+	width:494px;
+	text-align:left;
+	display:inline; /* prevents the IE margin doubling bug */
+	}
+
+#splashgraphicright	{
+	float:right;
+	width:223px;
+	margin:0;
+	padding:0;	
+	display:inline; /* prevents the IE margin doubling bug */
+	}
+
+#contenthomepage	{
+	background-color:#FFF;
+	float:left;
+	width:67em;
+	margin:0;
+	padding:0;
+	display:inline; /* prevents the IE margin doubling bug */
+	}
+
+#lefthomecontent	{
+	float:left;
+	width:48em;
+	border-left:1em solid white;
+	border-bottom:1em solid white;
+	margin:0;
+	padding:0;
+	display:inline; /* prevents the IE margin doubling bug */
+	}
+
+#righthomecontent	{
+	float:left;
+	width:16em;
+	margin:0 0 0 1em;
+	padding:0;
+	display:inline; /* prevents the IE margin doubling bug */
+	}
+
+#newswrapper	{
+	margin:0 0 1em 0;
+	padding:0;
+	}
+
+#footer	{
+	/* position:relative;
+	top:-7em;
+	left:0;*/
+	margin-top:0;
+	margin-bottom:0;
+	margin-left:auto;
+	margin-right:auto;
+	text-align:center;
+	width:100%;
+	}
+
+
+
+/* ---------------------------------- */
+/* ----- CONTENT STYLES APRIL 2010 -- */
+/* ---------------------------------- */
+
+
+.devicebox	{
+	width:43em;
+	margin:0 1em 0 1em;
+	padding:0;
+	display:inline; /* prevents the IE margin doubling bug */
+	text-align:left;
+	font-size:100%;
+	line-height:1.4;
+	background-color:#e9dcc6;
+	}
+
+.centeringdivfordevicecontent	{
+	text-align:center;
+	border-top:1px solid #e1eaf0;
+	border-bottom:1px solid #e1eaf0;
+	}
+	
+.centeringdivfororangeboxcontent	{
+	text-align:center;
+	border-top:1px solid #F8E2C9;
+	border-bottom:1px solid #F8E2C9;
+	}
+
+.RHbluebox	{
+	float:left;
+	width:15em;
+	margin:0 1em 0 0;
+	padding:0;
+	display:inline; /*prevents the IE margin doubling bug */
+	text-align:left;
+	font-size:100%;
+	line-height:1.4;
+	background-color:#fff;
+	border-bottom:1px solid #fff;
+	}
+
+.centeringdivforRHblueboxcontent	{
+	text-align:center;
+	border-top:1px solid #e1eaf0;
+	border-bottom:1px solid #e1eaf0;
+	}
+	
+.adbox	{
+	float:left;
+	width:100%;
+	margin:0;
+	padding:0;
+	display:inline; /*prevents the IE margin doubling bug */
+	text-align:left;
+	font-size:100%;
+	line-height:1.4;
+	background-color:#fff;
+	border-bottom:1em solid #fff;
+	}
+
+.indentedtextfirstpara	{
+	margin:0 1em 1em 1em;
+	font-size:120%;
+	}
+
+.indentedtextlastpara	{
+	margin:1em 1em 0 1em;
+	font-size:100%;
+	}
+
+.shiftup	{
+	position:relative;
+	top:-4em;
+	left:0;
+	}
+
+#formindent	{
+	border-left:0.5em solid white;
+	}
+	
+
+
+/* ------------------------------------------- */
+/* --------------- TEXT STYLES --------------- */
+/* ------------------------------------------- */
+
+#contenthomepage p {
+	font-size:100%;
+	margin:0;
+	color:#484633;
+	}
+
+#lefthomecontent p.larger, #righthomecontent p.larger {
+	font-size:120%;
+	margin:0;
+	color:#555;
+	}
+
+#lefthomecontent p.largerplus {
+	margin:0 0 0.5em 0;
+	font-size:120%;
+	color:#555;
+	}
+
+#contenthomepage p.italic {
+	font-style:italic;
+	margin:0 0 0.5em 0;
+	}
+	
+#contenthomepage p.comingsoon {
+	font-size:100%;
+	font-style:italic;
+	margin:0.5 0 0.5em 0;
+	color:#dc3f3a;
+	}
+	
+#contenthomepage a {
+	color:#369;
+	font-weight:bold;
+	padding:0;
+	margin:0;
+	}
+
+#contenthomepage a:hover {
+	background-color:#369;
+	color:#ffffff;
+	text-decoration:none;
+	padding:0;
+	margin:0;
+	}
+
+#contenthomepage h3 {
+	font-weight:bold;
+	color:#369;
+	margin:0 0 0.5em 0;
+	padding:0;
+	font-size:150%;
+	line-height:1;
+	}
+	
+#contenthomepage .indentedtextlastpara h3 {
+	color:#5b8bba;
+	}
+
+#righthomecontent h3 {
+	font-weight:bold;
+	color:#dc3f3a;
+	margin:0 0 0.2em 0;
+	padding:0;
+	font-size:150%;
+	line-height:1;
+	}
+
+#righthomecontent h3.signup {
+	font-size:170%;
+	}
+
+#contenthomepage .cb h3 {
+	font-weight:bold;
+	color:#369;
+	margin:0 0 0.5em 0;
+	padding:0;
+	font-size:190%;
+	line-height:1;
+	}
+	
+#contenthomepage .cb h3.smaller {font-weight:bold; color:#369; margin:0 0 0.5em 0; padding:0; font-size:170%; line-height:1;}
+#contenthomepage .cb h3.smallerwhite {font-weight:bold; color:#369; margin:0 0 0.5em 0; padding:0; font-size:170%; line-height:1;}
+
+
+#contenthomepage p.subhead {
+	display:block;
+	font-weight:bold;
+	color:#369;
+	margin:0;
+	padding:0;
+	font-size:120%;
+	}
+
+#righthomecontent p.subhead {
+	display:block;
+	font-weight:bold;
+	color:#dc3f3a;
+	margin:0 0 0.2em 0;
+	padding:0;
+	font-size:120%;
+	}
+
+#righthomecontent p.subheadwhite {
+	display:block;
+	font-weight:normal;
+	color:#369;
+	margin:0;
+	padding:0;
+	font-size:100%;
+	}
+
+#contenthomepage p.lightblue {
+	display:block;
+	font-weight:bold;
+	color:#5b8bba;
+	margin:0;
+	padding:0;
+	font-size:120%;
+	}
+	
+#contenthomepage p.lightbluesmaller {
+	display:block;
+	font-weight:bold;
+	color:#5b8bba;
+	margin:0.5em 0 0 0;
+	padding:0;
+	font-size:100%;
+	}
+
+
+/* --------------------------------------- */
+/* --------- HOMEPAGE FORM STYLES -------- */
+/* --------------------------------------- */
+
+
+#contenthomepage form {
+	margin:0;
+	padding:0;
+	font-size:100%;
+	color:#484633;
+	}
+
+#contenthomepage form select,
+#contenthomepage form option {
+	width:11em;
+	font-size:120%;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	vertical-align: middle;
+	margin:0 0 0.5em 0;
+	}
+	
+#contenthomepage .formlabel {
+	display:block;
+	margin:0.3em 0 0.2em 0;
+	padding:0;
+	font-size:100%;
+	font-weight:bold;
+	}
+		
+#contenthomepage form .signupbutton {
+	margin:0.5em 0 0 0;     
+	}
+
+#contenthomepage form fieldset {
+	border:none;
+	margin:0.5em 0 0 0;
+	}
+
+
+
+/* are the above styles being overwritten by the ones below? */
+
+
+
+form {
+	border-bottom:0;
+	border:none;
+	}
+
+form.homeselect,
+form.homeselectdevice	{
+	margin:0;
+	}
+
+form.homeselect ul,
+form.homeselectdevice ul{
+	margin:0;
+	}
+
+form.homeselect label,
+form.homeselectdevice label {
+	font-size:100%;
+	margin:0.5em 0 0 0;
+	color:#484633;
+	}
+
+form.homeselect select	{ font-size: 100%; font-family:Verdana, Arial, Helvetica, sans-serif; vertical-align: middle; width:12em;}
+form.homeselect select option { padding:0.1em 0;}
+
+
+<!--note the longer width for the device option box-->
+form.homeselectdevice select { font-size: 100%; font-family:Verdana, Arial, Helvetica, sans-serif; vertical-align: middle; width:16em;}
+form.homeselectdevice select option { padding:0.1em 0;}
+
+
+.adpic	{
+	background:url(/media/img/ipodad.jpg) no-repeat -1em -1em;
+	display:block;
+	width:13em;
+	height:9em;
+	text-indent:-6000px;
+	margin:0 0 0.5em 0;
+	padding:0;
+	}
+
+.orange .i1 {background-image:url(/media/img/orangeboxLH.gif);}
+.orange .i2 {background-image:url(/media/img/orangeboxRH.gif);}
+.orange .bb, .orange .bb div, .orange .bt, .orange .bt div {background-image:url(/media/img/orangebox.gif);font-size:1%;}
+.orange .i3 {background-color:#F8E2C9;}
+
+

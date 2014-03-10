@@ -1,0 +1,75 @@
+{% if pagination.pages %}
+
+<div class="paginator">
+<ul>
+{% if pagination.previous %}
+<li class="previous">
+	<a href="?page={{ pagination.previous }}{{ new_url }}">
+		&lt;&lt; Previous
+	</a>
+</li>
+{% endif %}
+
+{% for page in pagination.left %}
+<li class="left">
+{% ifequal page pagination.page %}
+	<span class="current">
+{% else %}
+	<a href="?page={{ page }}{{ new_url }}">
+{% endifequal %}
+		{{ page }}
+{% ifequal page pagination.page %}
+	</span>
+{% else %}
+	</a>
+{% endifequal %}
+</li>
+{% endfor %}
+
+{% if pagination.middle %}
+<li class="middle">...</li>
+{% for page in pagination.middle %}
+<li class="middle">
+{% ifequal page pagination.page %}
+	<span class="current">
+{% else %}
+	<a href="?page={{ page }}{{ new_url }}">
+{% endifequal %}
+		{{ page }}
+{% ifequal page pagination.page %}
+	</span>
+{% else %}
+	</a>
+{% endifequal %}
+</li>
+{% endfor %}
+{% endif %}
+
+{% if pagination.right %}
+<li class="right">...</li>
+{% for page in pagination.right %}
+<li class="right">
+{% ifequal page pagination.page %}
+	<span class="current">
+{% else %}
+	<a href="?page={{ page }}{{ new_url }}">
+{% endifequal %}
+		{{ page }}
+{% ifequal page pagination.page %}
+	</span>
+{% else %}
+	</a>
+{% endifequal %}
+</li>
+{% endfor %}
+{% endif %}
+
+{% if pagination.next %}
+<li class="next"><a href="?page={{ pagination.next }}{{ new_url }}">Next &gt;&gt;</a></li>
+{% endif %}
+
+</ul>
+
+</div>
+
+{% endif %}

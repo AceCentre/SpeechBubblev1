@@ -1,0 +1,16 @@
+.i1,
+.i3,
+.clearfix,
+.redcornerLH,
+#printiconbox a,
+#sidebars ul li,
+#sidebars li a,
+#sidebars .downloads ul li,
+#sidebars .downloads li a, {
+	min-height: 0;
+	}
+	
+#contents h2 {
+	border-top:0;
+	margin-top:0.5em;
+	}

@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block body %}
+<div id="contentleft">
+	<div id="printhomehelp">
+    		<div id="printiconbox"><a href="javascript:window.print();">Print this page</a></div>
+		<div id="homeiconbox"><a href="/">Home</a></div>
+		<div id="helpiconbox"><a href="/pages/en/help/">Help!</a></div>
+	</div>
+	{% block contentleft %}{% endblock %}
+</div>
+<div id="contentcentreandrightwrapper">
+	<div id="contentcentrewrapper">	
+		<div id="titlebar">
+			<div class="titlebarLH">
+				<h1>{% block title %}{% endblock %}</h1>
+			</div>
+		</div>
+		<!-- This breadcrumb section to be taken out as an include? -->
+		<div id="breadcrumb">
+			{% block breadcrumbs %}{% endblock %}
+		</div>
+		<!-- end proposed include -->
+		<div id="contentcentre">
+			<a class="skiplink" name="contentanchor" id="contentanchor"></a>
+			{% block content %}{% endblock %}
+		</div>
+		<div id="straplinebar">
+			<div class="straplinebarLH">
+				<p>giving the gift of communication</p>
+			</div>
+		</div>
+	</div>
+	<div id="contentright">
+		{% block rightcontent %}{% endblock %}
+	</div>
+	<div class="clear"></div>
+</div><!-- contentcentreandright -->
+{% endblock %}

@@ -1,0 +1,204 @@
+{% extends "onecol.html" %}
+
+{% block title %}Compare devices{% endblock %}
+
+{% block breadcrumbs %}
+    <p>You are here: <a href="/">home</a> &gt; <a href="/devices/">devices</a> &gt; compare</p>
+{% endblock %}
+
+{% block content %}
+{% if device_list %}
+    <table id="compare" class="comparisontable">
+	<col class="heading" />
+        {% for device in device_list %}
+	<col id="{{ device.slug }}" class="data" />
+        {% endfor %}
+	<tbody>
+        <tr>
+            <th>&nbsp;</th>
+            {% for device in device_list %}
+            <td class="toprow">
+		{% if device.images.all.0.image.cropped %}
+		<a href="/device/{{ device.slug }}/">
+			<img 
+				src="{{ device.images.all.0.image.cropped }}" 
+				alt="" 
+			/>
+		</a>
+		{% else %}
+		<a href="/device/{{ device.slug }}/">
+			<img src="/media/uploads/images/imagenotavailable_gif_versions/cropped_imagenotavailable.gif" alt="" />
+		</a>
+		{% endif %}
+                <a class="comparisontitle" href="/device/{{ device.slug }}/">{{ device.name }}</a>
+                {{ device.short_description|safe }}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Supplier(s):</th>
+            {% for device in device_list %}
+            <td class="darker">
+            {% for supplier in device.suppliers.all %}
+                <a href="/supplier/{{ supplier.slug }}/">{{ supplier.name }}</a>{% if not forloop.last %},{% endif %}
+            {% endfor %}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Size (cm):</th>
+            {% for device in device_list %}
+            <td>
+                {{ device.width_cm }} &times; {{ device.height_cm }} &times; {{ device.depth_cm }}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Weight (kg):</th>
+            {% for device in device_list %}
+            <td class="darker">
+                {{ device.weight_kg }}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Access:</th>
+            {% for device in device_list %}
+            <td>
+                {% for access_method in device.access_methods.all %}
+                    {{ access_method.name }}{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Speech type:</th>
+            {% for device in device_list %}
+            <td class="darker">
+                {{ device.get_speech_type_display }}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Screen size:</th>
+            {% for device in device_list %}
+            <td>
+                {{ device.screen_size_cm }}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Max no. of messages:</th>
+            {% for device in device_list %}
+            <td class="darker" >
+                {{ device.max_number_messages }}
+            </td>
+            {% endfor %}
+        </tr>
+	<!--
+        <tr>
+            <th>Message levels:</th>
+            {% for device in device_list %}
+            <td>
+                {{ device.message_levels }}
+            </td>
+            {% endfor %}
+        </tr>
+	-->
+        <tr>
+            <th>Auditory scanning:</th>
+            {% for device in device_list %}
+            <td>
+                {% for scanning_indication in device.scanning_indication.all %}
+                {{ scanning_indication.name }}{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Mobile phone capability:</th>
+            {% for device in device_list %}
+            <td class="darker">{{ device.mobile_phone_capable|yesno|capfirst }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Battery life:</th>
+            {% for device in device_list %}
+            <td>
+                {{ device.battery_life }}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Colours:</th>
+            {% for device in device_list %}
+            <td class="darker">
+                {{ device.colours|safe }}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Guide price:</th>
+            {% for device in device_list %}
+            <td>
+                &pound;{{ device.guide_price_gbp }}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Price notes:</th>
+            {% for device in device_list %}
+            <td>
+                {{ device.guide_price_notes|safe }}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Comm software included:</th>
+            {% for device in device_list %}
+            <td class="darker" >
+		{% for software in device.supplied_software.all %}
+		<a href="/software/{{ software.slug }}/">{{ software.name }}</a>{% if not forloop.last %},{% endif %}
+		{% endfor %}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Environmental control:</th>
+            {% for device in device_list %}
+            <td>
+		{{ device.environmental_control|yesno|capfirst }}
+            </td>
+            {% endfor %}
+        </tr>
+	<!--
+        <tr>
+            <th>Wheelchair mounting plate/fixing</th>
+            {% for device in device_list %}
+            <td>
+                {{ device.get_wheelchair_mount_display }}
+            </td>
+            {% endfor %}
+        </tr>
+	-->
+	</tbody>
+    </table>
+{% else %}
+	<p>You haven't selected any products to compare</p>
+{% endif %}
+<script src="/media/js/jquery/jquery.colorize-2.0.0.js" type="text/javascript"></script>
+<script type="text/javascript">
+<!--
+$(document).ready(function (){
+    $('.toggle').bind('click keypress', function (){
+        toggleVisibility(this);
+    });
+    $('#compare').colorize();
+});
+function toggleVisibility(element){
+    var name = $(element).attr('name');
+    $('#'+name).toggleClass('collapse');
+};
+-->
+</script>
+{% endblock %}

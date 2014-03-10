@@ -1,0 +1,372 @@
+{% extends "threecol.html" %}
+
+{% block title %}{{ software.name }}{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/media/css/jquery/plugins/galleriffic.css" type="text/css" />
+<link rel="stylesheet" href="/media/css/jquery/plugins/jquery.lightbox-0.5.css" type="text/css" media="screen" />
+{% endblock %}
+
+{% block breadcrumbs %}
+<p>You are here: <a href="/">home</a> &gt; <a href="/software/">software</a> &gt; {{ software.name }}</p>
+{% endblock %}
+
+{% block content %}
+<div id="gallerycontainer">
+	<div id="gallery" class="content">
+		<div id="slideshow" class="slideshow"></div>
+		<div id="caption" class="caption-container"></div>
+	</div>
+	<div id="thumbs" class="navigation">
+		<ul 
+			{% ifequal software.images.all|length 1 %}style="display: none;"{% endifequal %}
+			class="thumbs noscript"
+		>
+		{% for image in software.images.all %}
+			<li>
+				<a 
+					class="thumb" 
+				{% if image.image.small %}
+					href="{{ image.image.small }}" 
+				{% else %}
+					href="{{ image.image.original }}" 
+				{% endif %}
+					title="Image of {{ software.name }}"
+				>
+				{% if image.image.small %}
+				{% endif %}
+					<img 
+						src="{{ image.image.cropped }}" 
+						alt="Image of {{ software.name }}"
+					/>
+				</a>
+				<div class="caption">
+					<div class="download"> 
+						<a
+							class="lightbox"
+							href="{{ image.image.original }}"
+						>
+							See full size image
+						</a> 
+					</div>
+				</div>
+			</li>
+		{% endfor %}
+		</ul>
+	</div>
+</div>
+<!-- <table 
+	summary="A table of selected features of the product"
+	cellspacing="2" 
+	class="bodytabletwo"
+>
+	<tr>
+		<th scope="row" class="thtop">Access:</th>
+		<td>
+		{% for access_method in software.access_methods.all %}
+			{{ access_method.name }} 
+		{% endfor %}
+		</td>
+	</tr>
+	<tr>
+		<th scope="row" class="thtop">Guide price:</th>
+		<td>&pound;{{ software.guide_price_gbp }}</td>
+	</tr>
+</table> -->
+<div id="long_description">
+	{{ software.long_description|safe }}
+</div>
+<h2>Specification</h2>
+<table summary="A table of product specifications" class="spectable">
+	<tr>
+		<th scope="row" class="thtop">Supplier(s):</th>
+		<td>
+		{% for supplier in software.suppliers.all %}
+			{% if not forloop.last %}
+			<a href="/supplier/{{ supplier.slug }}/">{{ supplier.name }}</a><br />
+			{% else %}
+			<a href="/supplier/{{ supplier.slug }}/">{{ supplier.name }}</a>
+			{% endif %}
+		{% endfor %}
+		</td>
+	</tr>
+	<!--
+    <tr>
+		<th scope="row" class="thtop">Version</th>
+		<td>{{ software.version }}</td>
+	</tr>
+    -->
+	<tr>
+		<th scope="row" class="thtop">Access method</th>
+		<td>
+		{% for access_method in software.access_methods.all %}
+			{{ access_method.name }}{% if not forloop.last %},{% endif %}
+		{% endfor %}
+		</td>
+	</tr>
+	<tr>
+		<th scope="row" class="thtop">Speech type</th>
+		<td>{{ software.get_speech_type_display }}</td>
+	</tr>
+	<tr>
+		<th scope="row" class="thtop">Multiple user facilities </th>
+		<td>{{ software.multiple_users|yesno|capfirst }}</td>
+	</tr>
+	<tr>
+		<th scope="row" class="thtop">Second language support</th>
+		<td>{{ software.second_language_support|yesno|capfirst }}</td>
+	</tr>
+	<tr>
+		<th scope="row" class="thtop">Message view</th>
+		<td>{{ software.get_message_view_display }}</td>
+	</tr>
+	<tr>
+		<th scope="row" class="thtop">Options for speeding up message creation</th>
+		<td>
+		{% for prediction_enhancement in software.prediction_enhancement.all %}
+			{{ prediction_enhancement.name }}{% if not forloop.last %},{% endif %} 
+		{% endfor %}
+		</td>
+	</tr>
+	<tr>
+		<th scope="row" class="thtop">Editable dictionary</th>
+		<td>{{ software.editable_dictionary|yesno|capfirst }}</td>
+	</tr>
+	<tr>
+		<th scope="row" class="thtop">Auditory scanning</th>
+		<td>
+		{% for auditory_scanning in software.auditory_scanning.all %}
+			{{ auditory_scanning.name }}{% if not forloop.last %},{% endif %}
+		{% endfor %}
+		</td>
+	</tr>
+	<tr>
+		<th scope="row" class="thtop">Cell magnification</th>
+		<td>{{ software.cell_magnification|yesno|capfirst }}</td>
+	</tr>
+	<tr>
+		<th scope="row" class="thtop">Environmental control</th>
+		<td>{{ software.environmental_control|yesno|capfirst }}</td>
+	</tr>
+	<!--<tr>
+		<th scope="row" class="thtop">Scanning indication</th>
+		<td>
+		{% for scanning_indication in software.scanning_indication.all %}
+			{{ scanning_indication.name }}{% if not forloop.last %},{% endif %}
+		{% endfor %}
+		</td>
+	</tr>-->
+	<tr>
+		<th scope="row" class="thtop">Guide price</th>
+		<td>
+		{% if software.guide_price_na %}
+			n/a
+		{% else %}
+			&pound;{{ software.guide_price_gbp }}
+		{% endif %}
+		</td>
+	</tr>
+	{% if software.guide_price_notes %}
+	<tr>
+		<th scope="row" class="thtop">Price notes:</th>
+		<td>{{ software.guide_price_notes|safe }}</td>
+	</tr>
+	{% endif %}
+	<tr>
+		<th scope="row" class="thtop">Vocabularies included</th>
+		<td>
+		{% if software.number_supplied_vocabularies %}
+			Choice of {{ software.number_supplied_vocabularies }} of
+			{% for vocabulary in software.supplied_vocabularies.all %}
+			<a href="/vocabulary/{{ vocabulary.slug }}/">
+				{{ vocabulary.name }}</a>{% if not forloop.last %},{% endif %} 
+			{% endfor %}
+		{% else %}
+			n/a
+		{% endif %}
+		</td>
+	</tr>
+	<tr>
+		<th scope="row" class="thtop">Other compatible vocabs</th>
+		<td>
+		{% for vocabulary in software.compatible_vocabularies.all %}
+			<a href="/vocabulary/{{ vocabulary.slug }}/">
+				{{ vocabulary.name }}</a>{% if not forloop.last %},{% endif %} 
+		{% endfor %}
+		</td>
+	</tr>
+	{% if software.vocabularies_notes %}
+	<tr>
+		<th scope="row" class="thtop">Vocabulary notes:</th>
+		<td>{{ software.vocabularies_notes|safe }}</td>
+	</tr>
+	{% endif %}
+    <!--
+	<tr>
+		<th scope="row" class="thtop">Symbol sets included</th>
+		<td>Choice of {{ software.number_supplied_symbol_libraries }} of
+                {% for symbol_library in software.supplied_symbol_libraries.all %}
+			<a href="/symbollibrary/{{ symbol_library.slug }}/">
+				{{ symbol_library.name }}</a>{% if not forloop.last %},{% endif %} 
+		{% endfor %}
+		</td>
+	</tr>
+    -->
+	<!--<tr>
+		<th scope="row" class="thtop">For use with:</th>
+		<td>
+		{% for device in software.device_supplied_software.all %}
+			<a href="/device/{{ device.slug }}/">
+				{{ device.name }}</a>{% if not forloop.last %},{% endif %} 
+		{% endfor %}
+		{% for device in software.device_compatible_software.all %}
+			<a href="/device/{{ device.slug }}/">
+				{{ device.name }}</a>{% if not forloop.last %},{% endif %} 
+		{% endfor %}
+		</td>
+	</tr>-->
+</table>
+<p class="lastpara">Note that the information above is correct to the best of the ACE Centre's knowledge, but check with the supplier(s) if in doubt. We would be grateful if you could let us know of any errors - email <a href="mailto:speechbubble@ace-centre.org.uk">speechbubble@ace-centre.org.uk</a></p>
+<p><a href="#">back to top</a></p>
+<script 
+	type="text/javascript" 
+	src="/media/js/jquery/plugins/jquery.galleriffic.js"
+></script>
+<script 
+	type="text/javascript" 
+	src="/media/js/jquery/plugins/jquery.lightbox-0.5.js"
+></script>
+<script 
+	type="text/javascript" 
+	src="/media/js/jquery/jquery.truncator.js"
+></script>
+<script type="text/javascript">
+// We only want these styles applied when javascript is enabled
+$('div.navigation').css({'width' : '250px', 'float' : 'left'});
+$('div.content').css('display', 'block');
+ 
+$(document).ready(function() {				
+	// Initialize Minimal Galleriffic Gallery
+	$('#gallery').galleriffic('#thumbs', {
+		imageContainerSel: 	'#slideshow',
+		controlsContainerSel: 	'#controls',
+		captionContainerSel:    '#caption',
+		numThumbs:		3, // The number of thumbnails to show
+		onTransitionIn:         function() {
+			$('#slideshow').fadeIn('fast');
+			$('#caption').fadeIn('fast', function() {
+				$('.download a.lightbox').lightBox();
+			});
+		}
+	});
+	// Initialize jTruncate for description (un-comment out next line if truncator required)
+	// $('#long_description').truncate({max_length: 300});
+});
+</script>
+<script type="text/javascript" src="/media/js/jquery/jookie.js"></script>
+<script type="text/javascript" src="/media/js/CompareBox.js"></script>
+{% endblock %}
+
+{% block rightcontent %}
+<div class="downloads">
+	{% if software.documents.all %}
+	<p class="subhead">DOWNLOADS</p>
+	<ul>
+	{% for document in software.documents.all %}
+		<li class="{{ document.file.path|slice:"-3:" }}">
+			<a href="{{ document.file.url }}">{{ document.name }} ({{ document.file.path|slice:"-3:" }}, {{document.file.size|filesizeformat }})</a>
+		</li>
+	{% endfor %}
+	</ul>
+	{% endif %}
+</div>
+<div class="cbb"> 
+	<h3>CHOOSE</h3> 
+	<p class="subhead">ANOTHER PRODUCT</p> 
+<form action="" method="get" class="homeselect" name="softwareSelect">
+	<p>
+	<label for="software" class="formlabel">Details of:</label>
+	<select 
+		name="software" 
+		id="software"
+		onchange="document.location.href=document.softwareSelect.software.options[document.softwareSelect.software.selectedIndex].value"
+	>
+		<option value="">Choose software&hellip;</option>
+	{% for software in software_list %}
+		<option value="/software/{{ software.slug }}/">{{ software.name }}</option>
+	{% endfor %}
+	</select>
+	</p>
+</form>
+</div>
+<!--<div class="cbb"> 
+	<h3>COMPARE</h3> 
+	<p class="subhead">THIS PRODUCT</p> 
+	<p>Side-by-side view of up to 5 products</p> 
+	<p class="smaller">Click tickbox to remove</p> 
+	<form 
+		action="/software/compare/" 
+		method="get"
+		id="frmcompareform"
+	>
+		<ul id="compareList" class="checkboxlist"> 
+		</ul> 
+		<p>
+		<input 
+			src="/media/img/formbuttoncompare.gif" 
+			alt="compare these products" 
+			class="searchbutton" 
+			value="search" 
+			type="image"
+		/>
+		</p>
+	</form>	
+</div>
+<div id="{{ software.slug }}_td" class="tickbox">
+	Add to COMPARE list 
+	<input 
+		id="{{ software.slug }}" 
+		type="checkbox" 
+		class="product" 
+		name="software" 
+		value="{{ software.name }}" 
+	/>
+</div>-->
+
+<div class="cbb"> 
+	<h3>COMPARE</h3> 
+	<p class="subhead">THIS PRODUCT</p>
+    
+    <div id="{{ software.slug }}_td" class="tickbox">       
+        <input 
+            id="{{ software.slug }}" 
+            type="checkbox" 
+            class="product" 
+            name="software" 
+            value="{{ software.name }}" 
+	/>
+    	<label for="{{ software.slug }}">
+    		<p class="smaller">Add to COMPARE list</p>
+         </label>
+     </div>
+	<p>Side-by-side view of up to 5 products</p> 
+	<!--<p class="smaller">Click tickbox to remove</p>--> 
+	<form 
+		action="/software/compare/" 
+		method="get"
+		id="frmcompareform"
+	>
+		<ul id="compareList" class="checkboxlist"> 
+		</ul> 
+		<p>
+		<input 
+			src="/media/img/formbuttoncompare.gif" 
+			alt="compare these products" 
+			class="searchbutton" 
+			value="search" 
+			type="image"
+		/>
+		</p>
+	</form>	
+</div>
+{% endblock %}

@@ -1,0 +1,192 @@
+{% extends "onecol.html" %}
+
+{% block title %}Compare software{% endblock %}
+
+{% block breadcrumbs %}
+    <p>You are here: <a href="/">home</a> &gt; <a href="/software/">software</a> &gt; compare</p>
+{% endblock %}
+
+{% block content %}
+{% if software_list %}
+    <table class="comparisontable">
+        <tr>
+            <th>&nbsp;</th>
+            {% for software in software_list %}
+            <td class="toprow">
+		{% if software.images.all.0.image.cropped %}
+                <a href="/software/{{ software.slug }}/">
+                        <img src="{{ software.images.all.0.image.cropped }}" alt="" />
+                </a>
+                {% else %}
+                <a href="/software/{{ software.slug }}/">
+                        <img src="/media/uploads/images/imagenotavailable_gif_versions/cropped_imagenotavailable.gif"
+alt="" />
+                </a>
+                {% endif %}
+                <a class="comparisontitle" href="/software/{{ software.slug }}/">{{ software.name }}</a>
+                {{ software.short_description|safe }}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Suppliers:</th>
+            {% for software in software_list %}
+            <td class="darker">
+                {% for supplier in software.suppliers.all %}
+                <a href="/supplier/{{ supplier.slug }}/">{{ supplier.name }}</a>{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Access method:</th>
+            {% for software in software_list %}
+            <td>
+                {% for access_method in software.access_methods.all %}
+                {{ access_method.name }}{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Speech type:</th>
+            {% for software in software_list %}
+            <td class="darker">
+                {{ software.get_speech_type_display }}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Multiple user facilities:</th>
+            {% for software in software_list %}
+                <td>{{ software.multiple_users|yesno|capfirst }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Second language support:</th>
+            {% for software in software_list %}
+            <td class="darker">{{ software.second_language_support|yesno|capfirst }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Message view:</th>
+            {% for software in software_list %}
+            <td>{{ software.get_message_view_display }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Prediction enhancement:</th>
+            {% for software in software_list %}
+            <td class="darker">
+            {% for prediction_enhancement in software.prediction_enhancement.all %}
+                {{ prediction_enhancement.name }}{% if not forloop.last %},{% endif %} 
+            {% endfor %}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Editable dictionary</th>
+            {% for software in software_list %}
+            <td>{{ software.editable_dictionary|yesno|capfirst }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Auditory scanning</th>
+            {% for software in software_list %}
+            <td class="darker">
+            {% for auditory_scanning in software.auditory_scanning.all %}
+                {{ auditory_scanning.name }}{% if not forloop.last %},{% endif %} 
+            {% endfor %}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Cell magnification</th>
+            {% for software in software_list %}
+            <td>{{ software.cell_magnification|yesno|capfirst }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Environmental control:</th>
+            {% for software in software_list %}
+            <td class="darker">{{ software.environmental_control|yesno|capfirst }}</td>
+            {% endfor %}
+        </tr>
+        <!--<tr>
+            <th>Scanning indication</th>
+            {% for software in software_list %}
+            <td>
+            {% for scanning_indication in software.scanning_indication.all %}
+                {{ scanning_indication.name }}{% if not forloop.last %},{% endif %}
+            {% endfor %}
+            </td>
+            {% endfor %}
+         -->
+        </tr>
+        <tr>
+            <th>Guide price:</th>
+            {% for software in software_list %}
+            <td class="darker">
+            {% if software.guide_price_na %}
+                n/a
+            {% else %}
+                &pound;{{ software.guide_price_gbp }}
+            {% endif %}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Price notes:</th>
+            {% for software in software_list %}
+            <td>{{ software.guide_price_notes|safe }}</td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Vocabularies included:</th>
+            {% for software in software_list %}
+            <td class="darker">
+            {% if software.number_supplied_vocabularies %}
+                Choice of {{ software.number_supplied_vocabularies }} of
+                {% for vocabulary in software.supplied_vocabularies.all %}
+                    <a href="/vocabulary/{{ vocabulary.slug }}/">
+                        {{ vocabulary.name }}</a>{% if not forloop.last %},{% endif %}
+                {% endfor %}
+            {% else %}
+                n/a
+            {% endif %}
+            </td>
+            {% endfor %}
+        </tr>
+        <!--<tr>
+            <th>Other compatible vocabs</th>
+            {% for software in software_list %}
+            <td>
+            {% for vocabulary in software.compatible_vocabularies.all %}
+                <a href="/vocabulary/{{ vocabulary.slug }}/">
+                    {{ vocabulary.name }}</a>{% if not forloop.last %},{% endif %}
+            {% endfor %}
+            </td>
+            {% endfor %}
+        </tr>
+        
+        <tr>
+            <th>For use with</th>
+            {% for software in software_list %}
+            <td class="darker">
+            {% for device in software.device_supplied_software.all %}
+                <a href="/device/{{ device.slug }}/">
+                    {{ device.name }}</a>{% if not forloop.last %},{% endif %}
+            {% endfor %}
+            {% for device in software.device_compatible_software.all %}
+                <a href="/device/{{ device.slug }}/">
+                    {{ device.name }}</a>,
+            {% endfor %}
+            </td>
+            {% endfor %}
+        </tr>
+        -->
+    </table>
+{% else %}
+	<p>You haven't selected any products to compare</p>
+{% endif %}
+{% endblock %}

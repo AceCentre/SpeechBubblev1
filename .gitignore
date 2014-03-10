@@ -1,0 +1,7 @@
+*.pyc
+.DS_Store
+settings.py
+/.coverage
+/dist/
+/MANIFEST
+/docs/_build/

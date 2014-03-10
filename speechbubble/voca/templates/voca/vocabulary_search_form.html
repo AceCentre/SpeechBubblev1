@@ -1,0 +1,339 @@
+{% extends "threecol.html" %}
+{% load pagination_tags %}
+
+{% block title %}Vocabulary Search{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="/media/css/paginate.css" type="text/css" />
+{% endblock %}
+
+{% block contentleft %}
+{% if search_initiated %}
+<div class="cbb"> 
+	<h3>FILTER</h3> 
+	<p class="subhead">YOUR RESULTS</p> 
+	<form 
+		action="{{ request.get_full_path }}" 
+		method="get" 
+		id="frmfilterform"
+	> 
+		<label for="select2" class="formlabel">By Software</label> 
+		{{ search_form.software }}
+		<input 
+			src="/media/img/formbuttongo.gif" 
+			alt="filter your results" 
+			class="searchbutton" 
+			value="search" 
+			type="image"
+		/> 
+		<div class="hidden">
+			{{ search_form.supplier }}
+			{{ search_form.language_representation }}
+			{{ search_form.type }}
+			{{ search_form.switch_access }}
+			{{ search_form.on_screen_keyboard }}
+			{{ search_form.prediction}}
+			{{ search_form.sort_by }}
+		</div>
+	</form>	
+</div>
+{% endif %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <p>You are here: <a href="/">home</a> &gt; <a href="/vocabularies/">vocabularies</a> &gt; search</p>
+{% endblock %}
+
+{% block content %}
+{% if search_initiated %}
+<h2>Results:</h2>
+<p>Your search returned <span class="bold">{{ number_results }}</span> products</p>
+{% if object_list %}
+	{% autopaginate object_list 5 %}
+	<form
+		action="{{ request.get_full_path }}"
+		method="get"
+	>
+		<p>
+			Order by: 
+			{{ search_form.sort_by }}
+			<input
+				type="submit"
+				value="Go"
+			/>
+			<div class="hidden">
+				{{ search_form.supplier }}
+				{{ search_form.language_representation }}
+				{{ search_form.type }}
+				{{ search_form.switch_access }}
+				{{ search_form.on_screen_keyboard }}
+				{{ search_form.prediction}}
+				{{ search_form.software }}
+			</div>
+		</p>
+	</form>
+{% if display_show_all_button %}
+	<form
+		action="{{ request.get_full_path }}"
+		method="get"
+	>
+		<p>
+			<input
+				type="hidden"
+				name="show"
+				value="all"
+			/>
+			<input
+				type="submit"
+				value="Show all"
+			/>
+			<div class="hidden">
+				{{ search_form.supplier }}
+				{{ search_form.language_representation }}
+				{{ search_form.type }}
+				{{ search_form.switch_access }}
+				{{ search_form.on_screen_keyboard }}
+				{{ search_form.prediction}}
+				{{ search_form.sort_by }}
+			</div>
+		</p>
+	</form>
+{% endif %}
+	{% paginate %}
+        <form 
+		action="/vocabularies/compare/" 
+		method="get"
+	>
+        <table 
+		summary="A table of rows containing a product image, 
+			a short description and a tickbox" 
+		width="100%" 
+		cellspacing="2px"
+		class="bodytablethree"
+	>
+        {% for result in object_list %}
+                <tr>
+                        <th scope="row">
+                                {% if result.images.all.0.image.cropped %}
+                                <a href="/vocabulary/{{ result.slug }}/"><img src="{{ result.images.all.0.image.cropped }}" alt="" /></a>
+                                {% endif %}
+                        </th>
+                        <td>
+                                <a href="/vocabulary/{{ result.slug }}/">{{ result.name }}</a><br />
+                                {{ result.short_description|safe }}
+                        </td>
+                        <td id="{{ result.slug }}_td" class="tickbox">
+                                Add to<br />COMPARE list<br />
+                                <input 
+					id="{{ result.slug }}" 
+					type="checkbox" 
+					class="product" 
+					name="vocabulary" 
+					value="{{ result.name }}" 
+				/>
+                        </td>
+                </tr>
+        {% endfor %}
+	</table>
+	<p>
+	<input 
+		src="/media/img/formbuttoncompare.gif" 
+		alt="compare these products" 
+		id="comparebutton"
+		class="searchbutton" 
+		value="search" 
+		type="image"
+	/>
+	</p>
+	</form>
+{% paginate %}
+{% if display_show_all_button %}
+	<form
+		action="{{ request.get_full_path }}"
+		method="get"
+	>
+		<p>
+			<input
+				type="hidden"
+				name="show"
+				value="all"
+			/>
+			<input
+				type="submit"
+				value="Show all"
+			/>
+			<div class="hidden">
+				{{ search_form.supplier }}
+				{{ search_form.language_representation }}
+				{{ search_form.type }}
+				{{ search_form.switch_access }}
+				{{ search_form.on_screen_keyboard }}
+				{{ search_form.prediction}}
+				{{ search_form.sort_by }}
+			</div>
+		</p>
+	</form>
+{% endif %}
+{% endif %}
+{% else %}
+<h2>Browse products alphabetically:</h2> 
+<div class="alphalist">
+<p> 
+	<a href="/software/a/">A</a> 
+	<a href="/software/b/">B</a> 
+	<a href="/software/c/">C</a> 
+	<a href="/software/d/">D</a> 
+	<a href="/software/e/">E</a> 
+	<a href="/software/f/">F</a> 
+	<a href="/software/g/">G</a> 
+	<a href="/software/h/">H</a> 
+	<a href="/software/i/">I</a> 
+	<a href="/software/j/">J</a> 
+	<a href="/software/k/">K</a> 
+	<a href="/software/l/">L</a> 
+	<a href="/software/m/">M</a> 
+	<a href="/software/n/">N</a> 
+	<a href="/software/o/">O</a> 
+	<a href="/software/p/">P</a> 
+	<a href="/software/q/">Q</a> 
+	<a href="/software/r/">R</a> 
+	<a href="/software/s/">S</a> 
+	<a href="/software/t/">T</a> 
+	<a href="/software/u/">U</a> 
+	<a href="/software/v/">V</a> 
+	<a href="/software/w/">W</a> 
+	<a href="/software/x/">X</a> 
+	<a href="/software/y/">Y</a> 
+	<a href="/software/z/">Z</a> 
+</p>
+</div>
+<h2>Or detailed search by</h2>
+<form action="/vocabularies/" method="get">
+	<table 
+		summary="A table containing a tickbox list of product types"
+		width="100%" 
+		cellspacing="2" 
+		class="spectable"
+	>
+		<tr>
+			<th scope="row" class="thtop">
+	Supplier:
+			</th>
+			<td>
+	{{ search_form.supplier }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Language representation:
+			</th>
+			<td>
+	{{ search_form.language_representation }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Vocabulary type:
+			</th>
+			<td>
+	{{ search_form.type }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Switch access friendly:
+			</th>
+			<td>
+	{{ search_form.switch_access }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Onscreen text keyboards:
+			</th>
+			<td>
+	{{ search_form.on_screen_keyboard }}
+			</td>
+		</tr>
+		<tr>
+			<th scope="row" class="thtop">
+	Prediction:
+			</th>
+			<td>
+	{{ search_form.prediction }}
+			</td>
+		</tr>
+		<tr> 
+			<th scope="row" class="thtop"></th> 
+			<td> 
+	
+	<input
+		src="/media/img/formbuttonbluesearch.gif" 
+		alt="search for products based on your options" 
+		class="searchbutton" 
+		value="search"
+		type="image"
+	/> 
+    <button
+		type="reset"
+	>
+	<img
+		src="/media/img/startagainbutton.gif" 
+		alt="start again" 
+		class="resetbutton" 
+	/> 
+	</button>
+			</td> 
+		</tr> 
+	</table>
+</form>
+{% endif %}
+<script type="text/javascript" src="/media/js/jquery/jookie.js"></script>
+<script type="text/javascript" src="/media/js/CompareBox.js"></script>
+{% endblock %}
+{% block rightcontent %}
+{% if search_initiated %}
+<div class="cbb"> 
+	<h3>CHOOSE</h3> 
+	<p class="subhead">ANOTHER VOCAB</p> 
+    <form action="" method="get" class="homeselect" name="vocabularySelect">
+        <p>
+        <label for="vocabularies" class="formlabel">Details of:</label>
+        <select
+                name="vocabularies"
+                id="vocabularies"
+                onchange="document.location.href=document.vocabularySelect.vocabularies.options[document.vocabularySelect.vocabularies.selectedIndex].value"
+        >
+                <option value="">Choose vocabulary&hellip;</option>
+        {% for vocabulary in vocabulary_list %}
+                <option value="/vocabulary/{{ vocabulary.slug }}/">{{ vocabulary.name }}</option>
+        {% endfor %}
+        </select>
+        </p>
+</form>
+</div>
+<div class="cbb"> 
+	<h3>COMPARE</h3> 
+	<p class="subhead">THIS PRODUCT</p> 
+	<p>Side-by-side view of up to 5 products</p> 
+	<p class="smaller">Click tickbox to remove</p> 
+	<form 
+		action="/vocabularies/compare/" 
+		method="get"
+		id="frmcompareform"
+	>
+		<ul id="compareList" class="checkboxlist"> 
+		</ul> 
+		<p>
+		<input 
+			src="/media/img/formbuttoncompare.gif" 
+			alt="compare these products" 
+			class="searchbutton" 
+			value="search" 
+			type="image"
+		/>
+		</p>
+	</form>	
+</div>
+{% endif %}
+{% endblock %}

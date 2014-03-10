@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}Search results{% endblock %}
+
+{% block body1 %}
+<h1>Search Results</h1>
+
+
+<form method="get" action="/articles/search/">
+	<p>
+		Found {{ number_results }} matches for 
+		<input class="search" type="text" name="q" value="{{ query }}" />
+		<input type="submit" value="Search again" />
+	</p>
+</form>
+
+<dl>
+{% load pagination_tag %}
+{% paginate "/articles/" search_results_list current_page 25 6 paged_items %}
+{% include "pagination.html" %}
+{% for item in paged_items %}
+<dt><a href="/media/pdfs/{{ item.filename }}.pdf#search=%22{{ query }}%22">{{ item.title }}</a></dt>
+<dd>Volume {{ item.volume }}, Number {{ item.number }}, ({{ item.year }})</dd>
+{% endfor %}
+{% include "pagination.html" %}
+</dl>
+
+{% endblock %}
+
+{% block body2 %}
+<p>Message: {{ message }}</p>
+{% endblock %}

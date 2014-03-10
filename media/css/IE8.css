@@ -1,0 +1,4 @@
+<!-- top=0, not -7em, otherwise the footer comes too far up the page -->
+#footer	{
+	top:0;
+	}
