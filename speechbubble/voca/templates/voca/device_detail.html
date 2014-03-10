@@ -65,21 +65,15 @@
 				{% if image.image.small %}
 					href="{{ image.image.small }}" 
 				{% else %}
-					href="{{ image.image.original }}" 
+					its me href="{{ image.image.original }}" 
 				{% endif %}
 					title="Image of {{ device.name }}"
 				>
-					<img 
-						src="{{ image.image.cropped }}" 
-						alt="Image of {{ device.name }}"
-					/>
+					<img src="{{ image.image.cropped }}"  alt="Image of {{ device.name }}" />
 				</a>
 				<div class="caption">
 					<div class="download"> 
-						<a
-							class="lightbox"
-							href="{{ image.image.original }}"
-						>
+						<a class="lightbox" href="{{ image.image.original }}">
 							See full size image
 						</a> 
 					</div>
