@@ -5,4 +5,4 @@ settings.py
 /dist/
 /MANIFEST
 /docs/_build/
-/media/uploads/
+/media/uploads/*
