@@ -236,7 +236,8 @@ def device_search(request, letter):
         display_show_all_button = True
     else:
         display_show_all_button = False
-
+    
+    
     return object_list(
         request,
         results,
