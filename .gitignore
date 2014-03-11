@@ -6,3 +6,4 @@ settings.py
 /MANIFEST
 /docs/_build/
 /media/uploads/*
+/static
