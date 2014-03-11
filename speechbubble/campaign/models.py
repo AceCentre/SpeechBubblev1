@@ -1,0 +1,151 @@
+from datetime import datetime
+from django import template
+from django.db import models
+from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.models import User
+from django.core.mail import EmailMultiAlternatives
+from speechbubble.campaign.queue import SMTPQueue, SMTPLoggingConnection
+from tinymce import models as tinymce_models
+
+class MailTemplate(models.Model):
+    """
+    Holds a template for the email. Both, HTML and plaintext, versions
+    can be stored. If both are present the email will be send out as HTML 
+    with an alternate plain part. If only plaintext is entered, the email will
+    be send as text-only. HTML-only emails are currently not supported because
+    I don't like them.
+    
+    """
+    name = models.CharField(_(u"Name"), max_length=255)
+    plain = models.TextField(_(u"Plaintext Body"))
+#    html = models.TextField(_(u"HTML Body"), blank=True, null=True)
+    html = tinymce_models.HTMLField(_(u"HTML Body"), blank=True, null=True)
+    subject = models.CharField(_(u"Subject"), max_length=255)
+    
+    def __unicode__(self):
+        return self.name
+    
+    
+
+class Recipient(models.Model):
+    """
+    A recipient of a Mail doesn't have to correspond to a User object, but can.
+    If a User object is present the email address will automatically be filled
+    in, if none is given.
+    
+    """
+    user = models.ForeignKey(User, blank=True, null=True, verbose_name=_(u"User"))
+    email = models.EmailField(_(u"email address"), blank=True, unique=True)
+    salutation = models.CharField(_(u"salutation"), blank=True, null=True, max_length=255)
+    added = models.DateTimeField(_(u"added"), editable=False)
+    
+    def __unicode__(self):
+        return self.email
+
+    def save(self, *args, **kwargs):
+        if not self.pk:
+            self.added = datetime.now()
+        if self.user is not None and not self.email:
+            self.email = self.user.email
+        return super(Recipient, self).save(*args, **kwargs)
+    
+    class Meta:
+        abstract = True
+
+
+    
+class Subscriber(Recipient):
+    """
+    The actual Recipient of a Mail, see Recipient docstring for more info.
+    
+    """
+
+
+class SubscriberList(models.Model):
+    """
+    A list of Subscriber objects.
+    
+    """
+    name = models.CharField(_(u"Name"), max_length=255)
+    subscribers = models.ManyToManyField(Subscriber, null=True, verbose_name=_(u"Subscribers"))
+    
+    def __unicode__(self):
+        return self.name
+
+        
+class Campaign(models.Model):
+    """
+    A Campaign is the central part of this app. Once a Campaign is created,
+    has a MailTemplate and a number of Recipients, it can be send out.
+    Most of the time of Campain will have a one-to-one relationship with a
+    MailTemplate, but templates may be reused in other Campaigns and maybe
+    Campaigns will have support for multiple templates in the future, therefore
+    the distinction.
+    
+    """
+    name = models.CharField(_(u"Name"), max_length=255)
+    template = models.ForeignKey(MailTemplate, verbose_name=_(u"Template"))
+    recipients = models.ManyToManyField(SubscriberList, verbose_name=_(u"Subscriber lists"))
+    sent = models.BooleanField(_(u"sent out"), default=False, editable=False)
+    online = models.BooleanField(_(u"available online"), default=True, blank=True, help_text=_(u"make a copy available online"))
+    
+    def __unicode__(self):
+        return self.name
+        
+        
+    def send(self):
+        """
+        Sends the mails to the recipients.
+        """
+        connection = SMTPLoggingConnection()
+        num_sent = self._send(connection)
+        self.sent = True
+        self.save()
+        return num_sent
+        
+        
+    def _send(self, connection):
+        """
+        Does the actual work
+        """    
+        subject = self.template.subject
+        text_template = template.Template(self.template.plain)
+        if self.template.html is not None and self.template.html != u"":
+            html_template = template.Template(self.template.html)
+        
+        sent = 0
+        used_addresses = []
+        for recipient_list in self.recipients.all():
+            for recipient in recipient_list.subscribers.all():
+                # never send mail to blacklisted email addresses
+                if not BlacklistEntry.objects.filter(email=recipient.email).count() and not recipient.email in used_addresses:
+                    msg = EmailMultiAlternatives(subject, connection=connection, to=[recipient.email,])
+                    msg.body = text_template.render(template.Context({'salutation': recipient.salutation,}))
+                    if self.template.html is not None and self.template.html != u"":
+                        html_content = html_template.render(template.Context({'salutation': recipient.salutation,}))
+                        msg.attach_alternative(html_content, 'text/html')
+                    sent += msg.send()
+                    used_addresses.append(recipient.email)
+        return sent
+
+
+
+
+class BlacklistEntry(Recipient):
+    """
+    If a user has requested removal from the subscriber-list, he is added
+    to the blacklist to prevent accidential adding of the same user again.
+    """
+
+    class Meta:
+        verbose_name_plural = "Blacklist entries"
+
+
+class BounceEntry(Recipient):
+    """
+    Records bouncing Recipients. To be processed by a human.
+    """
+    exception = models.TextField(_(u"exception"), blank=True, null=True)
+
+    class Meta:
+        verbose_name_plural = "Bounce entries"

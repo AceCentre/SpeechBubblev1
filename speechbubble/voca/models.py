@@ -50,10 +50,10 @@ class DraftManager(models.Manager):
 class DeviceImage(models.Model):
     device = models.ForeignKey('Device', related_name='images')
     image = FileBrowseField(
-        "Image",
         max_length=200, 
-        directory="images/", 
-        extensions=['.jpg', '.jpeg', '.gif','.png','.tif','.tiff'], 
+        directory="/images/",
+        extensions=['.jpg', '.jpeg', '.gif','.png','.tif','.tiff'],
+        format='Image',
         blank=True, 
         null=True
     )
@@ -63,8 +63,8 @@ class SoftwareImage(models.Model):
     software = models.ForeignKey('Software', related_name='images')
     image = FileBrowseField(
         max_length=200, 
-        directory="images/", 
-        extensions=['.jpg', '.jpeg', '.gif','.png','.tif','.tiff'], 
+        directory="/images/", 
+        extensions=['.jpg', '.jpeg', '.gif','.png','.tif','.tiff'],
         format='Image', 
         blank=True, 
         null=True
@@ -75,8 +75,8 @@ class VocabularyImage(models.Model):
     vocabulary = models.ForeignKey('Vocabulary', related_name='images')
     image = FileBrowseField(
         max_length=200, 
-        directory="images/", 
-        extensions=['.jpg', '.jpeg', '.gif','.png','.tif','.tiff'], 
+        directory="/images/", 
+        extensions=['.jpg', '.jpeg', '.gif','.png','.tif','.tiff'],
         format='Image', 
         blank=True, 
         null=True

@@ -8,7 +8,7 @@ import re
 import itertools
 from django.db.models import Q
 
-from news.models import NewsItem
+#from news.models import NewsItem
 from voca.models import Device, Software, Vocabulary, Supplier
 
 def home(request):
@@ -18,14 +18,14 @@ def home(request):
     software_list = Software.objects.order_by('name')
     vocabulary_list = Vocabulary.objects.order_by('name')
     supplier_list = Supplier.objects.order_by('name')
-    news_items = NewsItem.objects.order_by('-date')
+#    news_items = NewsItem.objects.order_by('-date')
 
     context = Context({
         'device_list': device_list,
         'software_list': software_list,
         'vocabulary_list': vocabulary_list,
         'supplier_list': supplier_list,
-        'news_items': news_items,
+#        'news_items': news_items,
     })
     return render_to_response(
         'index.html',

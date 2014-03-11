@@ -1,0 +1,12 @@
+{% extends "threecol.html" %}
+{% load i18n %} 
+
+{% block title %}
+{% trans "Subscribe to our newsletter" %}
+{% endblock %}
+{% block content %}
+<form action="" method="post">
+    {{ form.as_p }}
+    <p><input type="submit" value="{% trans "subscribe" %}"/></p>
+</form>
+{% endblock %}

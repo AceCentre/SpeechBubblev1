@@ -1,5 +1,4 @@
 {% extends "threecol.html" %}
-{% load fb_versions %}
 {% load pagination_tags %}
 
 {% block title %}Device Search{% endblock %}
@@ -23,9 +22,9 @@
 		id="frmfilterform"
 	> 
 		<label for="select1" class="formlabel">By Software:</label> 
-		{{ form.software }}
+		{{ search_form.software }}
 		<label for="select2" class="formlabel">By Vocabulary</label> 
-		{{ form.vocabulary }}
+		{{ search_form.vocabulary }}
 		<input 
 			src="/media/img/formbuttongo.gif" 
 			alt="filter your results" 
@@ -34,22 +33,22 @@
 			type="image"
 		/> 
 		<div class="hidden">
-			{{ form.device_type }}
-			{{ form.supplier }}
-			{{ form.access }}
-			{{ form.speech_type }}
-			{{ form.number_messages }}
-			{{ form.operating_system }}
-			{{ form.scanning_feedback }}
-			{{ form.keyguard }}
-			{{ form.touchscreen_size }}
-			{{ form.environmental_control }}
-			{{ form.install_own_software }}
-			{{ form.mobile_phone_capable }}
-			{{ form.internet_capable }}
-			{{ form.wheelchair_mount }}
-			{{ form.weight }}
-			{{ form.sort_by }}
+			{{ search_form.device_type }}
+			{{ search_form.supplier }}
+			{{ search_form.access }}
+			{{ search_form.speech_type }}
+			{{ search_form.number_messages }}
+			{{ search_form.operating_system }}
+			{{ search_form.scanning_feedback }}
+			{{ search_form.keyguard }}
+			{{ search_form.touchscreen_size }}
+			{{ search_form.environmental_control }}
+			{{ search_form.install_own_software }}
+			{{ search_form.mobile_phone_capable }}
+			{{ search_form.internet_capable }}
+			{{ search_form.wheelchair_mount }}
+			{{ search_form.weight }}
+			{{ search_form.sort_by }}
 		</div>
 	</form>	
 </div>
@@ -80,35 +79,36 @@
 <h2>Results:</h2>
 <p>Your search returned <span class="bold">{{ number_results }}</span> products</p>
 {% if object_list %}
+	{% autopaginate object_list paginate_by %}
 	<form
 		action="{{ request.get_full_path }}"
 		method="get"
 	>
 		<p>
 			Order by: 
-			{{ form.sort_by }}
+			{{ search_form.sort_by }}
 			<input
 				type="submit"
 				value="Go"
 			/>
 			<div class="hidden">
-				{{ form.device_type }}
-				{{ form.supplier }}
-				{{ form.access }}
-				{{ form.speech_type }}
-				{{ form.number_messages }}
-				{{ form.operating_system }}
-				{{ form.scanning_feedback }}
-				{{ form.keyguard }}
-				{{ form.touchscreen_size }}
-				{{ form.environmental_control }}
-				{{ form.install_own_software }}
-				{{ form.mobile_phone_capable }}
-				{{ form.internet_capable }}
-				{{ form.wheelchair_mount }}
-				{{ form.weight }}
-				{{ form.software }}
-				{{ form.vocabulary }}
+				{{ search_form.device_type }}
+				{{ search_form.supplier }}
+				{{ search_form.access }}
+				{{ search_form.speech_type }}
+				{{ search_form.number_messages }}
+				{{ search_form.operating_system }}
+				{{ search_form.scanning_feedback }}
+				{{ search_form.keyguard }}
+				{{ search_form.touchscreen_size }}
+				{{ search_form.environmental_control }}
+				{{ search_form.install_own_software }}
+				{{ search_form.mobile_phone_capable }}
+				{{ search_form.internet_capable }}
+				{{ search_form.wheelchair_mount }}
+				{{ search_form.weight }}
+				{{ search_form.software }}
+				{{ search_form.vocabulary }}
 			</div>
 		</p>
 	</form>
@@ -128,28 +128,29 @@
 				value="Show all"
 			/>
 			<div class="hidden">
-				{{ form.device_type }}
-				{{ form.supplier }}
-				{{ form.access }}
-				{{ form.speech_type }}
-				{{ form.number_messages }}
-				{{ form.operating_system }}
-				{{ form.scanning_feedback }}
-				{{ form.keyguard }}
-				{{ form.touchscreen_size }}
-				{{ form.environmental_control }}
-				{{ form.install_own_software }}
-				{{ form.mobile_phone_capable }}
-				{{ form.internet_capable }}
-				{{ form.wheelchair_mount }}
-				{{ form.weight }}
-				{{ form.software }}
-				{{ form.vocabulary }}
-				{{ form.sort_by }}
+				{{ search_form.device_type }}
+				{{ search_form.supplier }}
+				{{ search_form.access }}
+				{{ search_form.speech_type }}
+				{{ search_form.number_messages }}
+				{{ search_form.operating_system }}
+				{{ search_form.scanning_feedback }}
+				{{ search_form.keyguard }}
+				{{ search_form.touchscreen_size }}
+				{{ search_form.environmental_control }}
+				{{ search_form.install_own_software }}
+				{{ search_form.mobile_phone_capable }}
+				{{ search_form.internet_capable }}
+				{{ search_form.wheelchair_mount }}
+				{{ search_form.weight }}
+				{{ search_form.software }}
+				{{ search_form.vocabulary }}
+				{{ search_form.sort_by }}
 			</div>
 		</p>
 	</form>
 {% endif %}
+	{% paginate %}
         <form 
 		action="/devices/compare/" 
 		method="get"
@@ -164,21 +165,11 @@
         {% for result in object_list %}
                 <tr>
                         <th scope="row">
-                        {% if result.images.all.0.image %}
+                        {% if result.images.all.0.image.cropped %}
                                 <a href="/device/{{ result.slug }}/">
 					<img 
-						src="{{ result.images.all.0.image.url }}" 
-						width="60" 
-						alt="Main image, scaled"
-					/>
-                                        {% version_object result.images.all.0.image 'thumbnail' as thumbnail %}
-					<img 
-						src="{{ thumbnail }}" 
-						alt="Generated using version_object"
-					/>
-					<img 
-						src="{% version result.images.all.0.image 'thumbnail' %}" 
-						alt="Generated using version"
+						src="{{ result.images.all.0.image.cropped }}" 
+						alt="" 
 					/>
 				</a>
                         {% endif %}
@@ -214,6 +205,7 @@
 	/>
 	</p>
 	</form>
+{% paginate %}
 {% if display_show_all_button %}
 	<form
 		action="{{ request.get_full_path }}"
@@ -230,24 +222,24 @@
 				value="Show all"
 			/>
 			<div class="hidden">
-				{{ form.device_type }}
-				{{ form.supplier }}
-				{{ form.access }}
-				{{ form.speech_type }}
-				{{ form.number_messages }}
-				{{ form.operating_system }}
-				{{ form.scanning_feedback }}
-				{{ form.keyguard }}
-				{{ form.touchscreen_size }}
-				{{ form.environmental_control }}
-				{{ form.install_own_software }}
-				{{ form.mobile_phone_capable }}
-				{{ form.internet_capable }}
-				{{ form.wheelchair_mount }}
-				{{ form.weight }}
-				{{ form.software }}
-				{{ form.vocabulary }}
-				{{ form.sort_by }}
+				{{ search_form.device_type }}
+				{{ search_form.supplier }}
+				{{ search_form.access }}
+				{{ search_form.speech_type }}
+				{{ search_form.number_messages }}
+				{{ search_form.operating_system }}
+				{{ search_form.scanning_feedback }}
+				{{ search_form.keyguard }}
+				{{ search_form.touchscreen_size }}
+				{{ search_form.environmental_control }}
+				{{ search_form.install_own_software }}
+				{{ search_form.mobile_phone_capable }}
+				{{ search_form.internet_capable }}
+				{{ search_form.wheelchair_mount }}
+				{{ search_form.weight }}
+				{{ search_form.software }}
+				{{ search_form.vocabulary }}
+				{{ search_form.sort_by }}
 			</div>
 		</p>
 	</form>
@@ -302,7 +294,7 @@
 	Type<br />(You can choose more than one)
 			</th>
 			<td>
-	{{ form.device_type }}
+	{{ search_form.device_type }}
 	<input 
 		src="/media/img/formbuttonbluesearch.gif" 
 		alt="search" 
@@ -330,7 +322,7 @@
 	<label for="id_supplier">Supplier:</label>
 			</th>
 			<td>
-	{{ form.supplier }}
+	{{ search_form.supplier }}
 			</td>
 		</tr>
 		<tr>
@@ -340,7 +332,7 @@
 	(can choose more than one)
 			</th>
 			<td>
-	{{ form.access }}
+	{{ search_form.access }}
 			</td>
 		</tr>
 		<tr>
@@ -348,7 +340,7 @@
 	Main speech type:
 			</th>
 			<td>
-	{{ form.speech_type }}
+	{{ search_form.speech_type }}
 			</td>
 		</tr>
 		<tr>
@@ -356,7 +348,7 @@
 	Max no of messages:
 			</th>
 			<td>
-	{{ form.number_messages }}
+	{{ search_form.number_messages }}
 			</td>
 		</tr>
 		<tr>
@@ -366,7 +358,7 @@
 	(if applicable)
 			</th>
 			<td>
-	{{ form.operating_system }}
+	{{ search_form.operating_system }}
 			</td>
 		</tr>
 		<tr>
@@ -376,7 +368,7 @@
 	(can choose more than one)
 			</th>
 			<td>
-	{{ form.scanning_feedback }}
+	{{ search_form.scanning_feedback }}
 			</td>
 		</tr>
 		<tr>
@@ -384,7 +376,7 @@
 	Keyguards:
 			</th>
 			<td>
-	{{ form.keyguard }}
+	{{ search_form.keyguard }}
 			</td>
 		</tr>
 		<tr>
@@ -394,7 +386,7 @@
 	(if applicable)
 			</th>
 			<td>
-	{{ form.touchscreen_size }}
+	{{ search_form.touchscreen_size }}
 			</td>
 		</tr>
 		<tr>
@@ -402,7 +394,7 @@
 	Do you need environmental control?
 			</th>
 			<td>
-	{{ form.environmental_control }}
+	{{ search_form.environmental_control }}
 			</td>
 		</tr>
 		<tr>
@@ -410,7 +402,7 @@
 	Can I install my own software? (if applicable)
 			</th>
 			<td>
-	{{ form.install_own_software }}
+	{{ search_form.install_own_software }}
 			</td>
 		</tr>
 		<tr>
@@ -418,7 +410,7 @@
 	Mobile phone capability as standard:
 			</th>
 			<td>
-	{{ form.mobile_phone_capable }}
+	{{ search_form.mobile_phone_capable }}
 			</td>
 		</tr>
 		<tr>
@@ -426,7 +418,7 @@
 	Internet and email capable as standard:
 			</th>
 			<td>
-	{{ form.internet_capable }}
+	{{ search_form.internet_capable }}
 			</td>
 		</tr>
 		<tr>
@@ -434,7 +426,7 @@
 	Wheelchair mounting plate:
 			</th>
 			<td>
-	{{ form.wheelchair_mount }}
+	{{ search_form.wheelchair_mount }}
 			</td>
 		</tr>
 		<tr> 

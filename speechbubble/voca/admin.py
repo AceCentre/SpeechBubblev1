@@ -1,10 +1,9 @@
 from django.contrib import admin
-from moderation.admin import ModerationAdmin
 from reversion.admin import VersionAdmin
 import models
 
 
-class DraftAdmin(ModerationAdmin, VersionAdmin):
+class DraftAdmin(VersionAdmin):
     list_display = ('__unicode__', 'draft',)
     list_filter = ('draft',)
     def queryset(self, request):

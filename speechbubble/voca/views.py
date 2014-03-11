@@ -5,118 +5,9 @@ from django.http import HttpResponse
 from django.template import Context, loader
 from django.core.paginator import Paginator, InvalidPage, EmptyPage
 from django.db.models import Q
-from django.views.generic.edit import FormMixin, FormView
-from django.views.generic import TemplateView, ListView, DetailView
-
-from voca.models import Device, Software, Vocabulary
-from voca.forms import DeviceSearchForm, SoftwareSearchForm, VocabularySearchForm
-
-# Create your views here.
-
-
-class FormListView(FormMixin, ListView):
-    def get(self, request, *args, **kwargs):
-        # From ProcessFormMixin
-        form_class = self.get_form_class()
-        self.form = self.get_form(form_class)
-
-        # From BaseListView
-        self.object_list = self.get_queryset()
-        allow_empty = self.get_allow_empty()
-        if not allow_empty and len(self.object_list) == 0:
-            raise Http404(_(u"Empty list and '%(class_name)s.allow_empty' is False.")
-                          % {'class_name': self.__class__.__name__})
-
-        context = self.get_context_data(object_list=self.object_list, form=self.form)
-
-        return self.render_to_response(context)
-
-    def post(self, request, *args, **kwargs):
-        return self.get(request, *args, **kwargs)
-
-
-class DeviceList(FormListView):
-    form_class = DeviceSearchForm
-    model = Device
-    template_name = "voca/device_search_form.html"
-
-    def get_queryset(self):
-        try:
-            searchdict = self.form_class(self.request.GET).data
-        except:
-            searchdict = {}
-            # It's easier to store a dict of the possible lookups we
-        # want, where the values are the keyword arguments for 
-        # the actual query.
-        qdict = {
-            'access': 'access_methods__name__in',
-            'device_type': 'device_type__name__in',
-            'environmental_control': 'environmental_control',
-            'install_own_software': 'install_own_software',
-            'internet_capable': 'internet_capable',
-            'keyguard': 'keyguards__in',
-            'mobile_phone_capable': 'mobile_phone_capable',
-            'number_messages': 'number_messages',
-            'operating_system': 'operating_system__name',
-            'scanning_feedback': 'scanning_indication__name__in',
-            'speech_type': 'speech_type',
-            'supplier': 'suppliers__slug',
-            'touchscreen_size': 'touchscreen',
-            'wheelchair_mount': 'wheelchair_mount',
-        }
-        # Then we can do this all in one step instead of needing
-        # to call 'filter' and deal with intermediate data 
-        # structures.
-        q_objs = [Q(**{qdict[k]: searchdict[k]}) for k in qdict.keys() if searchdict.get(k, None)]
-
-        if 'sort_by' in self.request.GET:
-        #            assert False, self.request.GET['sort_by']
-            if self.request.GET['sort_by'] == 'weight_high':
-                ordering = '-weight_kg'
-            elif self.request.GET['sort_by'] == 'weight_low':
-                ordering = 'weight_kg'
-            elif self.request.GET['sort_by'] == 'price_high':
-                ordering = '-guide_price_gbp'
-            elif self.request.GET['sort_by'] == 'price_low':
-                ordering = 'guide_price_gbp'
-            elif self.request.GET['sort_by'] == 'name':
-                ordering = 'name'
-            else:
-                ordering = 'name'
-        else:
-            ordering = 'name'
-        results = Device.objects.filter(*q_objs).order_by(ordering).distinct()
-
-        if 'software' in self.request.GET:
-            results = results.filter(
-                Q(supplied_software__slug=(self.request.GET['software'])) |
-                Q(compatible_software__slug=(self.request.GET['software']))
-            )
-        if 'vocabulary' in searchdict:
-            results = results.filter(
-                Q(supplied_software__supplied_vocabularies__slug=(
-                    searchdict['vocabulary']
-                )) |
-                Q(supplied_software__compatible_vocabularies__slug=(
-                    searchdict['vocabulary']
-                )) |
-                Q(compatible_software__supplied_vocabularies__slug=(
-                    searchdict['vocabulary']
-                )) |
-                Q(compatible_software__compatible_vocabularies__slug=(
-                    searchdict['vocabulary']
-                ))
-            )
-        if 'weight' in searchdict and searchdict['weight']:
-            results = results.filter(
-                weight_kg__range=(float(searchdict['weight']) - 0.5, float(searchdict['weight']) + 0.5))
-        return results
-
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super(DeviceList, self).get_context_data(**kwargs)
-        context['search_initiated'] = True
-        return context
+from speechbubble.compat import object_list
+from speechbubble.voca.models import Device, Software, Vocabulary
+from speechbubble.voca.forms import DeviceSearchForm, SoftwareSearchForm, VocabularySearchForm
 
 
 def device_search(request, letter):
@@ -127,7 +18,7 @@ def device_search(request, letter):
     search_form = DeviceSearchForm()
     search_initiated = True
     # Check to see if GET request has any data.
-    if len(request.GET) > 0:
+    if (len(request.GET) > 0):
         search_form = DeviceSearchForm(request.GET)
         if search_form.is_valid():
             searchdict = search_form.cleaned_data
@@ -155,16 +46,16 @@ def device_search(request, letter):
             # structures.
             q_objs = [Q(**{qdict[k]: searchdict[k]}) for k in qdict.keys() if searchdict.get(k, None)]
 
-            if 'sort_by' in request.GET:
-                if request.GET['sort_by'] == 'weight_high':
+            if ('sort_by' in request.GET):
+                if (request.GET['sort_by'] == 'weight_high'):
                     ordering = '-weight_kg'
-                elif request.GET['sort_by'] == 'weight_low':
+                elif (request.GET['sort_by'] == 'weight_low'):
                     ordering = 'weight_kg'
-                elif request.GET['sort_by'] == 'price_high':
+                elif (request.GET['sort_by'] == 'price_high'):
                     ordering = '-guide_price_gbp'
-                elif request.GET['sort_by'] == 'price_low':
+                elif (request.GET['sort_by'] == 'price_low'):
                     ordering = 'guide_price_gbp'
-                elif request.GET['sort_by'] == 'name':
+                elif (request.GET['sort_by'] == 'name'):
                     ordering = 'name'
                 else:
                     ordering = 'name'
@@ -214,7 +105,7 @@ def device_search(request, letter):
         new_url = ''
 
     # filter by first letter of device name
-    if letter:
+    if (letter):
         regex_filter = '^[' + letter.lower() + letter.upper() + ']'
         results = results.filter(
             name__regex=regex_filter
@@ -226,13 +117,13 @@ def device_search(request, letter):
     device_list = Device.objects.order_by('name')
 
     # check if the request asks to skip pagination
-    if 'show' in request.GET and request.GET['show'] == 'all':
+    if ('show' in request.GET and request.GET['show'] == 'all'):
         paginate_by = 10000
     else:
         paginate_by = 5
 
     # only display the 'Show All' button if we actually paginate results
-    if number_results > paginate_by:
+    if (number_results > paginate_by):
         display_show_all_button = True
     else:
         display_show_all_button = False
@@ -241,6 +132,7 @@ def device_search(request, letter):
         request,
         results,
         template_name="voca/device_search_form.html",
+        paginate_by=paginate_by,
         extra_context={
             'search_form': search_form,
             'new_url': new_url,
@@ -252,20 +144,6 @@ def device_search(request, letter):
             'display_show_all_button': display_show_all_button,
         }
     )
-
-
-class DeviceSearch(FormView):
-    form_class = DeviceSearchForm
-    template_name = "voca/device_search_form.html"
-
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super(DeviceSearch, self).get_context_data(**kwargs)
-        context['new_url'] = ''
-        context['search_initiated'] = False
-        context['number_results'] = len(Device.objects.none())
-        context['device_list'] = Device.objects.none()
-        return context
 
 
 def device_search_form(request):
@@ -292,18 +170,8 @@ def device_search_form(request):
     )
 
 
-class DeviceDetail(DetailView):
-    model = Device
-
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super(DeviceDetail, self).get_context_data(**kwargs)
-        context['device_list'] = Device.objects.order_by('name')
-        return context
-
-
 def device_compare(request):
-    if 'device' in request.GET:
+    if ('device' in request.GET):
         devices = request.GET.getlist('device')
         device_list = Device.objects.search(devices)
     else:
@@ -326,7 +194,7 @@ def software_search(request, letter):
     search_form = SoftwareSearchForm()
     search_initiated = True
     # Check to see if GET request has any data.
-    if len(request.GET) > 0:
+    if (len(request.GET) > 0):
         search_form = SoftwareSearchForm(request.GET)
         if search_form.is_valid():
             searchdict = search_form.cleaned_data
@@ -349,12 +217,12 @@ def software_search(request, letter):
             # structures.
             q_objs = [Q(**{qdict[k]: searchdict[k]}) for k in qdict.keys() if searchdict.get(k, None)]
 
-            if 'sort_by' in request.GET:
-                if request.GET['sort_by'] == 'price_high':
+            if ('sort_by' in request.GET):
+                if (request.GET['sort_by'] == 'price_high'):
                     ordering = '-guide_price_gbp'
-                elif request.GET['sort_by'] == 'price_low':
+                elif (request.GET['sort_by'] == 'price_low'):
                     ordering = 'guide_price_gbp'
-                elif request.GET['sort_by'] == 'name':
+                elif (request.GET['sort_by'] == 'name'):
                     ordering = 'name'
                 else:
                     ordering = 'name'
@@ -385,7 +253,7 @@ def software_search(request, letter):
         new_url = ''
 
     # filter by first letter of device name
-    if letter:
+    if (letter):
         regex_filter = '^[' + letter.lower() + letter.upper() + ']'
         results = results.filter(
             name__regex=regex_filter
@@ -451,7 +319,7 @@ def software_search_form(request):
 
 
 def software_compare(request):
-    if 'software' in request.GET:
+    if ('software' in request.GET):
         software = request.GET.getlist('software')
         software_list = Software.objects.search(software)
     else:
@@ -474,7 +342,7 @@ def vocabulary_search(request, letter):
     search_form = VocabularySearchForm()
     search_initiated = True
     # Check to see if GET request has any data.
-    if len(request.GET) > 0:
+    if (len(request.GET) > 0):
         search_form = VocabularySearchForm(request.GET)
         if search_form.is_valid():
             searchdict = search_form.cleaned_data
@@ -495,12 +363,12 @@ def vocabulary_search(request, letter):
             # structures.
             q_objs = [Q(**{qdict[k]: searchdict[k]}) for k in qdict.keys() if searchdict.get(k, None)]
 
-            if 'sort_by' in request.GET:
-                if request.GET['sort_by'] == 'price_high':
+            if ('sort_by' in request.GET):
+                if (request.GET['sort_by'] == 'price_high'):
                     ordering = '-guide_price_gbp'
-                elif request.GET['sort_by'] == 'price_low':
+                elif (request.GET['sort_by'] == 'price_low'):
                     ordering = 'guide_price_gbp'
-                elif request.GET['sort_by'] == 'name':
+                elif (request.GET['sort_by'] == 'name'):
                     ordering = 'name'
                 else:
                     ordering = 'name'
@@ -531,7 +399,7 @@ def vocabulary_search(request, letter):
         new_url = ''
 
     # filter by first letter of device name
-    if letter:
+    if (letter):
         regex_filter = '^[' + letter.lower() + letter.upper() + ']'
         results = results.filter(
             name__regex=regex_filter
@@ -597,7 +465,7 @@ def vocabulary_search_form(request):
 
 
 def vocabulary_compare(request):
-    if 'vocabulary' in request.GET:
+    if ('vocabulary' in request.GET):
         vocabulary = request.GET.getlist('vocabulary')
         vocabulary_list = Vocabulary.objects.search(vocabulary)
     else:
@@ -624,3 +492,4 @@ def link_list(request):
         'vocabularies': vocabularies,
     })
     return HttpResponse(t.render(c))
+

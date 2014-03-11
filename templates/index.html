@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+{% block title %}SpeechBubble{% endblock %}
+{% block css %}
+<link href="/media/css/homepagestyles.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block body %}
+<div id="contenthomepage">
+
+<div id="titlebar">
+			<div class="titlebarLH">
+				<img src="/media/img/singlepixelgif.gif" height="20px" alt="*"/>
+			</div>
+	</div>
+	<div id="splashgraphicgirl">
+    	<div id="splashtext"><img src="/media/img/logoright.gif" alt="speechbubble - all about communication aids"/></div>
+    </div>
+
+<!--<div id="splashgraphiccontainer">
+	<div id="splashgraphicleft"><img src="/media/img/combilogo2.gif" alt="speechbubble - all about communication aids"/></div>
+    </div> -->
+   	
+ 
+ 	<a class="skiplink" name="contentanchor" id="contentanchor"></a>
+	
+    <div id="lefthomecontent">
+    <!--<div class="shiftup">-->
+    <div class="indentedtextfirstpara">
+     <p class="largerplus">If you need help with spoken communication because of a disability, this website can give you an idea of what's on offer, with details of nearly every communication aid available in the UK - and it's all searchable!</p>
+    <p class="larger"><a href="/pages/en/help/">Help! Where do I start?</a></p>
+        </div>
+
+		<div class="devicebox">
+        <div class="cbb">
+        <div class="centeringdivfordevicecontent">
+        <p class="subhead">CHOOSE A</p>
+		<h3 class="largest">COMMUNICATION AID</h3>
+        <!--<p>If you know the name of the aid you're looking for, select it from the list below.</p>-->
+		<form action="" method="get" class="homeselectdevice" name="deviceSelect">
+			<p>
+			<!--<label for="devices" class="formlabel">search by name</label>-->
+			<select 
+				name="devices" 
+				id="devices"
+				onchange="document.location.href=document.deviceSelect.devices.options[document.deviceSelect.devices.selectedIndex].value">
+				<option value="">select an aid</option>
+			{% for device in device_list %}
+				<option value="/device/{{ device.slug }}/">{{ device.name }}</option>
+			{% endfor %}
+			</select>
+			</p>
+            <p class="lightblue">OR</p>
+            <div class="indentedtextfirstpara">
+			<p class="larger"><a href="/devices/search">search by feature</a></p>
+            <p class="lightbluesmaller">OR</p>
+			<p class="larger"><a href="http://speechbubble.somcom.co.uk/devices/?x=43&y=12">compare communication aids</a></p>
+            </div>
+		</form>
+        </div>
+	    </div>
+        </div>
+
+        <div class="indentedtextlastpara">
+                <h3>More Searches...</h3>
+        </div>       
+		<div class="RHbluebox">
+	    <div class="cbb">
+        <div class="centeringdivforRHblueboxcontent">
+        <p class="subhead">Find</p>
+		<h3 class="smaller">SOFTWARE</h3>
+		<form action="" method="get" class="homeselect" name="softwareSelect">
+			<p>
+			<!--<label for="software" class="formlabel">search</label>-->
+			<select 
+				name="software" 
+				id="software"
+				onchange="document.location.href=document.softwareSelect.software.options[document.softwareSelect.software.selectedIndex].value"
+			>
+				<option value="">select software</option>
+			{% for software in software_list %}
+				<option value="/software/{{ software.slug }}/">{{ software.name }}</option>
+			{% endfor %}
+			</select>
+			</p>
+			<p><a href="/software/search/">search by feature</a></p>
+		</form>
+		</div>
+		</div>
+        </div>
+        
+		<div class="RHbluebox">
+	    <div class="cbb">
+        <div class="centeringdivforRHblueboxcontent">
+        <p class="subhead">FIND A</p>
+		<h3 class="smaller">VOCABULARY</h3>
+		<form action="" method="get" class="homeselect" name="vocabularySelect">
+			<p>
+			<!--<label for="vocabularies" class="formlabel">search</label>-->
+			<select 
+				name="vocabularies" 
+				id="vocabularies"
+				onchange="document.location.href=document.vocabularySelect.vocabularies.options[document.vocabularySelect.vocabularies.selectedIndex].value"
+			>
+				<option value="">select vocabulary</option>
+			{% for vocabulary in vocabulary_list %}
+				<option value="/vocabulary/{{ vocabulary.slug }}/">{{ vocabulary.name }}</option>
+			{% endfor %}
+			</select>
+			</p>
+			<p><a href="/vocabularies/search/">search by feature</a>		</p>
+		</form>
+		</div>
+		</div>
+        </div>
+    
+        
+		<div class="RHbluebox">
+	    <div class="cbb">
+        <div class="centeringdivforRHblueboxcontent">
+        <p class="subhead">CONTACT A</p>
+		<h3 class="smaller">SUPPLIER</h3>
+		<form action="" method="get" class="homeselect" name="supplierSelect">
+			<p>
+			<!--<label for="vocabularies" class="formlabel">search</label>-->
+			<select 
+					name="suppliers" 
+				id="suppliers"
+				onchange="document.location.href=document.supplierSelect.suppliers.options[document.supplierSelect.suppliers.selectedIndex].value"
+			>
+				<option value="">choose a supplier</option>
+			{% for supplier in supplier_list %}
+				<option value="/supplier/{{ supplier.slug }}/">{{ supplier.name }}</option>
+			{% endfor %}
+			</select>
+			</p>
+			<p><a href="/suppliers/">list all suppliers</a></p>
+		</form>
+		</div>
+		</div>
+        </div>
+
+        
+        
+       <!--</div>--> 
+        
+    </div>
+
+
+
+
+
+
+
+<div id="righthomecontent">
+
+	
+    		<div class="adbox">
+            <div class="cbb orange">
+            <div class="centeringdivfororangeboxcontent">
+            <h3 class="smallerwhite">WE CAN HELP</h3>
+			<a href="http://www.ace-centre.org.uk/index.cfm?pageid=B1F494A4-3048-7290-FE31D7F2468D8E30"><div class="adpic">
+            <p>Link to the ACE Centre</p>
+			</div></a>
+            <p class="subheadwhite">Unbiased communication aid assessments and training</p>
+            <p class="subheadwhite"><a href="http://www.ace-centre.org.uk/index.cfm?pageid=B1F494A4-3048-7290-FE31D7F2468D8E30">CLICK FOR DETAILS</a></p>
+            </div>
+            </div>
+            </div>
+			
+            <!--
+    		<div class="adbox">
+            <div class="cbb orange">
+            <div class="centeringdivfororangeboxcontent">
+            <h3 class="smallerwhite">iPads &amp; AAC</h3>
+			<a href="http://bit.ly/pJGDvV"><div class="adpic">
+            <p>Link to the ACE Centre</p>
+			</div></a>
+            <p class="subheadwhite">Unmissable Network Day</p>
+            <p class="subheadwhite">20 October, Oxford</p>
+            <p class="subheadwhite"><a href="http://bit.ly/pJGDvV">CLICK FOR DETAILS</a></p>
+            </div>
+            </div>
+            </div>
+            -->
+                        
+			<div id="formindent">
+            <h3 class="signup">SIGN UP</h3>
+            <p class="subhead">Our free quarterly email update!</p>
+            <p>With all that's new about communication aids</p>
+            <form 
+					action="/newsletter/subscribe/" 
+					method="post" 
+					id="submitformx"
+				>
+
+					<fieldset>
+						<label for="id_name" accesskey="3" class="formlabel">name:</label>
+						<input name="name" id="id_name" type="text" /></ br>
+						<label for="id_email" accesskey="4" class="formlabel">email:</label>
+						<input name="email" id="id_email" type="text" /></ br>
+						<input 
+							src="/media/img/signup_button.gif" 
+							alt="sign up for our monthly email" 
+							id="emailFormSubmit" 
+							class="signupbutton" 
+							value="search" 
+							type="image" 
+						/>
+					</fieldset>
+				</form>
+                <p>We won't share your details with anyone else. Ever.</p>
+				</div>
+                
+                
+</div>
+</div>
+
+<div class="clear"></div>
+{% endblock %}

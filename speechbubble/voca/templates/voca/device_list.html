@@ -65,8 +65,8 @@
 			Order by: 
 			<select name="sort_by">
 				<option value="name">name</option>
-				<option value="price_low">price (lowest first)</option>
-				<option value="price_high">price (highest first)</option>
+				<option value="price">price (lowest first)</option>
+				<option value="price">price (highest first)</option>
 				<option value="weight_low">weight (lowest first)</option>
 				<option value="weight_high">weight (highest first)</option>
 			</select>
@@ -90,7 +90,9 @@
         {% for device in device_list %}
                 <tr>
                         <th scope="row">
-                                <a href="/device/{{ device.slug }}/"><img src="{{ device.images.all.0.url }}" alt="" /></a>
+                                {% if device.images.all.0.image.cropped %}
+                                <a href="/device/{{ device.slug }}/"><img src="{{ device.images.all.0.image.cropped }}" alt="" /></a>
+                                {% endif %}
                         </th>
                         <td>
                                 <a href="/device/{{ device.slug }}/">{{ device.name }}</a><br />

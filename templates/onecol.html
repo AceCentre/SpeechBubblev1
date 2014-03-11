@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block body %}
+				<div id="titlebar">
+                    <div class="titlebarLH">
+                        <h1>{% block title %}{% endblock %}</h1>
+                    </div>
+				</div>
+				
+				<!-- This breadcrumb section to be taken out as an include? -->
+				<div id="breadcrumb">
+                                        {% block breadcrumbs %}{% endblock %}
+				</div>
+				<!-- end proposed include -->
+                
+                <div id="contentcentre" class="contentonecol">
+                    <a class="skiplink" name="contentanchor" id="contentanchor"></a>
+                    {% block content %}{% endblock %}
+                </div>
+                
+  				<div id="straplinebar">
+					<div class="straplinebarLH">
+						<p>giving the gift of communication</p>
+					</div>
+				</div>
+									
+	<div class="clear"></div>
+{% endblock %}
