@@ -1,9 +1,11 @@
 *.pyc
 .DS_Store
 settings.py
-/.coverage
-/dist/
-/MANIFEST
-/docs/_build/
-/media/uploads/*
+/bin
+!/bin/gunicorn_start
+/include
+/lib
+/local
+/logs
 /static
+/run
