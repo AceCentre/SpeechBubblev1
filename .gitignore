@@ -9,3 +9,4 @@ settings.py
 /logs
 /static
 /run
+._*
