@@ -6,7 +6,6 @@ import os
 PROJECT_DIR =os.path.dirname(os.path.abspath(os.path.join(__file__, '../..')))
 sys.path.append(PROJECT_DIR)
 
-
 gettext = lambda s: s
 
 DEBUG = True
@@ -15,20 +14,19 @@ TEMPLATE_DEBUG = DEBUG
 INTERNAL_IPS = ('127.0.0.1',)
 
 ADMINS = (
-    ('MainName', 'email@emai..com'),
+    ('Mark Allen', 'mallen@somcom.com'),
 )
 
 MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'HOST': '',
-        'NAME': 'DBNAME',
-        'USER': 'DBUSER',
-        'PASSWORD': 'DBPASS',
-        'STORAGE_ENGINE': 'INNODB',
-    },
+        'HOST': 'localhost',
+        'NAME': 'speechbubbleig',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'USER': 'USERNAME',
+        'PASSWORD': 'PASS',
+    }
 }
 
 # Local time zone for this installation. Choices can be found here:
