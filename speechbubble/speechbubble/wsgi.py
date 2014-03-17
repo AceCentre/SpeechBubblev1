@@ -24,7 +24,7 @@ if path not in sys.path:
     sys.path.append(path + '/..')
 
 # Store the path to the virtualenv site-packages directory
-ALLDIRS = ['/var/virtualenv/speechbubble2/lib/python2.7/site-packages']
+ALLDIRS = ['/srv/dilbert.beta.speechbubble/lib/python2.7/site-packages']
 
 # Remember original sys.path.
 prev_sys_path = list(sys.path)
