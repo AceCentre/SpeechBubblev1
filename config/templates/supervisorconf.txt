@@ -1,0 +1,8 @@
+[program:speechbubblelive]
+command = /srv/dilbert.live.speechbubble/bin/gunicorn_start                    ; Command to start app
+user = willwade                                                  ; User to run as
+stdout_logfile = /srv/dilbert.live.speechbubble/logs/gunicorn_supervisor.log   ; Where to write log messages
+redirect_stderr = true
+
+
+
